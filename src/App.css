@@ -1,42 +1,281 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&display=swap');
+
+/* slider de tecnologias */
+.slider {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    overflow: hidden;
+}
+img, h1 , p , h2 ,h3, h4 ,b ,h5, li ,label{
+    user-select: none;
+    pointer-events: none;
+    
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.slider .slide-track {
+    display: flex;
+    animation: scroll 15s linear infinite;
+    width: calc(200px *9);
+    -webkit-animation: scroll 15s linear infinite;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.slider :hover{
+    animation-play-state: paused;
+    user-select: none;    
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.slider .slide {
+    width: 200px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.slider .slide img {
+    width: 100%;
 }
 
-.card {
-  padding: 2em;
+@keyframes fadeInTop {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
-.read-the-docs {
-  color: #888;
+@keyframes scroll {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    100% {
+        -webkit-transform: translateX(calc(-200px *10));
+        transform: translateX(calc(-200px *10));
+    }
+}
+
+/* Fondo de Matrix */
+
+/* Hide the default scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #1fda25;
+    border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #2ac231;
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.inset-0 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.matrix-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.texto {
+    color: #2ac231;
+}
+
+.bg-matrix {
+    background-color: #2ac231;
+}
+
+body {
+    cursor: url("./assets/icons/icons8-cursor-64.png"), auto;
+}
+
+:root {
+    --success-color: #1fda25;
+}
+
+#butonIrALaWeb,
+#botonEnviar,
+#botonCertificados {
+    background-color: #2ac231;
+}
+
+@media only screen and (max-width: 700px) {
+    #textoFooter {
+        text-align: center !important;
+        margin-top: 10px !important;
+    }
+
+    #footer {
+        margin: 0 !important;
+    }
+}
+
+/* Personalizacion de botones y mouse */
+#butonIrALaWeb:hover {
+    cursor: url("./assets/icons/cursor2.png"), auto;
+    background-color: #89ce8d;
+}
+
+a {
+    cursor: url("./assets/icons/cursor2.png"), auto;
+}
+.switch:hover{
+    cursor: url("./assets/icons/cursor2.png"), auto;
+}
+.redes:hover {
+    transform: scale(140%);
+}
+.subrayados{
+    color: #2ac231
+}
+#botonCertificados:hover {
+    background-color: #89ce8d;
+    cursor: url("./assets/icons/cursor2.png"), auto;
+}
+
+#botonEnviar:hover {
+    background-color: #89ce8d;
+    cursor: url("./assets/icons/cursor2.png"), auto;
+}
+
+.slider:hover {
+    cursor: url("./assets/icons/cursoralternativo.png"), auto;
+}
+
+.proyecto:hover {
+    background-color: #1fda25 !important;
+    transform: scale(105%) !important;
+    cursor: url("./assets/icons/cursoralternativo.png"), auto;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+}
+
+#footerLinkedin:hover {
+    content: url("./assets/icons/linkedin-oscuro.png"), auto;
+}
+
+#footerGithub:hover {
+    content: url("./assets/icons/github.png"), auto;
+
+}
+
+#footerGmail:hover {
+    content: url("./assets/icons/gmail-oscuro.png"), auto;
+}
+
+/* switch boton */
+.toggle:before,
+.toggle:after {
+    content: "ON";
+    position: absolute;
+    font-size: 12px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 0;
+    color: #47c;
+}
+
+.toggle:after {
+    content: "OFF";
+    margin-top: -40px;
+    margin-left: 50px;
+    color: #666;
+}
+
+label {
+    position: relative;
+    z-index: 1;
+}
+
+/* Efectos fade de transicion */
+.FadeinTop {
+    animation: fadeInTop 1s ease-out forwards;
+}
+
+div.carousel-indicators,
+a.carousel-control-prev,
+a.carousel-control-next {
+    display: none;
+}
+
+@keyframes fadeInTop {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, -50%, 0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.FadeInBottom {
+    animation: fadeIBottom 1s ease-out forwards;
+}
+
+@keyframes fadeIBottom {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 50%, 0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.FadeInLeft {
+    animation: fadeInLeft 1.5s ease-out forwards;
+}
+
+@keyframes fadeInLeft {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, 0%, 0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
 }
