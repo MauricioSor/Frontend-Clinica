@@ -2,9 +2,10 @@ import React from 'react';
 import { Button, Container, Form, InputGroup, Table } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { FaSearch } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
+import { useNavigate } from 'react-router-dom';
 
 const SearchPatient = () => {
-
+    const navigate=useNavigate();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const busquedaDni = (datos) => {
         console.log("Buscar paciente por DNI" + datos.dni)
@@ -64,7 +65,7 @@ const SearchPatient = () => {
                         <td><strong style={{color:"green"}}>Activo</strong></td>
                         <td>02-04-1998</td>
                         <td>
-                            <Button variant="success" size="sm" className="me-2">Ver</Button>
+                            <Button onClick={()=>navigate("/Hc")} variant="success" size="sm" className="me-2">Ver Historia Clinica</Button>
                         </td>
                     </tr>
                 </tbody>

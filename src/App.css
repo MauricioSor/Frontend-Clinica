@@ -369,3 +369,24 @@ a.carousel-control-next {
   }
 
 }
+
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-weight: bold;
+  color: #007bff; /* Color del título */
+}
+
+.card-text {
+  font-size: 1.2rem; /* Tamaño de texto del dato */
+}
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.font-weight-bold {
+  font-weight: bold; /* Asegura que el texto de las etiquetas sea negrita */
+}
