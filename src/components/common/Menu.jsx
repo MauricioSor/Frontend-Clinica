@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Nav, Navbar,Modal,Row, Container, Image, Form,Button, NavDropdown } from "react-bootstrap"
+import { Nav, Navbar, Modal, Row, Container, Image, Form, Button, NavDropdown } from "react-bootstrap"
 import { useState } from 'react';
 import Logo from "../../assets/ClinicaLogo2.png"
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 const Menu = () => {
     const [openMenu, setOpenMenu] = useState(false)
@@ -10,18 +11,25 @@ const Menu = () => {
     const [show, setShow] = useState(false);
     const handleChange = () => setShow(!show);
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const navigate=useNavigate("")
+    const login=()=>{
+        navigate("/Board")
+        handleChange();
+    }
     return (
         <>
-            <Navbar style={{background:"#242c4f"}} expand="md" expanded={openMenu} onClick={changeStateMenu} className="site-wrap">
+            <Navbar style={{ background: "#242c4f" }} expand="md" expanded={openMenu} onClick={changeStateMenu} className="site-wrap">
                 <Container fluid>
                     <Navbar.Brand href="#" className='d-flex text-white'>
-                        <Image src={Logo} style={{ height: "110px" }} alt="Logo Web" className='mx-2 mt-3' roundedCircle />
+                        <Button onClick={()=>navigate("/")} className='text-decoration-none' style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }}>
+                            <Image src={Logo} style={{ height: "110px" }} alt="Logo Web" className='mx-2 mt-3' roundedCircle />
+                        </Button>
                         <p className='ms-2 mt-5 fs-4 text-white'>Mi Clinica</p>
                     </Navbar.Brand>
                     <Navbar.Toggle className='text-white' aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="navbarScroll" className=' responsive-navbar-nav' >
                         <Nav className="ms-auto" style={{ maxHeight: '100px' }} navbarScroll>
-                            <Button style={{backgroundColor:"#242c4f",borderColor:"#242c4f"}} onClick={() => { handleChange() }} className='text-decoration-none text-white me-4 fs-5' >Iniciar sesion</Button>
+                            <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() => { handleChange() }} className='text-decoration-none text-white me-4 fs-5' >Iniciar sesion</Button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -31,7 +39,7 @@ const Menu = () => {
                     <Modal.Title ><h3 >Inicio de Sesion</h3></Modal.Title>
                 </Modal.Header>
                 <Container>
-                    <Form onSubmit={handleSubmit({})}>
+                    <Form onSubmit={handleSubmit(login)}>
                         <Row>
                             <Form.Group>
                                 <Form.Label>Usuario</Form.Label>
