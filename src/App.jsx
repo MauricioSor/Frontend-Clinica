@@ -7,6 +7,8 @@ import SearchPatient from './views/SearchPatient'
 import Board from './views/Board'
 import Register from './views/Register'
 import MedicalRecord from './views/MedicalRecord'
+import Evolution from './views/Evolution'
+import NewEvolution from './views/NewEvolution'
 
 function App() {
 
@@ -20,7 +22,8 @@ function App() {
           <Route exact path="/Board" element={<Board/>} />
           <Route exact path="/Register" element={<Register/>} />
           <Route exact path="/Hc" element={<MedicalRecord/>} />
-          <Route exact path="" element={{}} />
+          <Route exact path="/Evolution" element={<Evolution/>} />
+          <Route exact path="/Evolution/New" element={<NewEvolution/>} />
         </Routes>
         <Footer />
       </HashRouter>

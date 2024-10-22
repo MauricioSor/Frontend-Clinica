@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Card, Button, Modal, Offcanvas } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 
 const MedicalRecord = () => {
@@ -7,7 +8,7 @@ const MedicalRecord = () => {
     const handleChange=()=>setShow(!show)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+    const navigate=useNavigate()
     const patientData = [
         { label: 'DNI', value: '31234123' },
         { label: 'Pasaporte', value: '-' },
@@ -53,7 +54,7 @@ const MedicalRecord = () => {
                     <hr />
                     <Card.Body>
                         {DiagnosticData.map((data, index) => (
-                            <Button key={index} className='p-3 m-2'>
+                            <Button onClick={()=>navigate("/evolution")} key={index} className='p-3 m-2'>
                                 <span className="font-weight-bold">{data.label}</span>
                             </Button>
                         ))}
