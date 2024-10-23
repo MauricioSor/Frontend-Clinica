@@ -25,7 +25,7 @@ const Evolution = () => {
                     texto: "Ecografía de tórax"
                 }
             ]
-        }
+        },
     ];
 
     return (
