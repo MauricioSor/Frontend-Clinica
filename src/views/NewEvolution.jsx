@@ -34,10 +34,8 @@ const NewEvolution = () => {
                     </Form.Group>
                     <Button className='mt-2' variant="primary" type='submit'>Guardar</Button>
                 </Form>
-                <Button className=''>
-                    Plantillas
-                </Button>
-                <Button>
+                <Button variant='warning' className='mt-5 rounded-circle btn-circle'>
+                Plantillas
                 </Button>
             </Container>
         </Container>

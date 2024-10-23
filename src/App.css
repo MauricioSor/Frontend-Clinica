@@ -390,3 +390,12 @@ a.carousel-control-next {
 .font-weight-bold {
   font-weight: bold; /* Asegura que el texto de las etiquetas sea negrita */
 }
+
+.btn-circle {
+  width: 150px; /* Ajusta el tamaño según lo necesites */
+  height: 150px; /* Asegúrate de que el alto sea igual al ancho */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Esto asegura que sea un círculo */
+}
