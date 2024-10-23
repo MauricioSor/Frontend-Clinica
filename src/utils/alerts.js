@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+
 
 export const PedidoLab = () => {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -18,19 +20,12 @@ export const PedidoLab = () => {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
+            navigate("/Evolution/LaboratoryOrder")
+        } else if(result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
+                title: "Pedido de laboratorio cancelado",
+                text: "No se agregaran pedidos de laboratorio",
                 icon: "success"
-            });
-        } else if (
-            /* Read more about handling dismissals below */
-            result.dismiss === Swal.DismissReason.cancel
-        ) {
-            swalWithBootstrapButtons.fire({
-                title: "Cancelled",
-                text: "Your imaginary file is safe :)",
-                icon: "error"
             });
         }
     });
@@ -54,21 +49,14 @@ export const Receta = () => {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
+            console.log("navegar")
+            navigate("/Evolution/DigitalPrescription")
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
+                title: "Receta digital cancelada",
+                text: "No se agregaran receas digitales",
                 icon: "success"
-            });
-        } else if (
-            /* Read more about handling dismissals below */
-            result.dismiss === Swal.DismissReason.cancel
-        ) {
-            swalWithBootstrapButtons.fire({
-                title: "Cancelled",
-                text: "Your imaginary file is safe :)",
-                icon: "error"
             });
         }
     });
-
 }

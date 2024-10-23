@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Container,Button, Image } from 'react-bootstrap';
-import SearchPatient from './SearchPatient';
 import SearchIcon from "../assets/searchPacientIcon.png"
 import RegisterIcon from "../assets/icons8-escritura-96.png"
 import { useNavigate } from 'react-router-dom';
