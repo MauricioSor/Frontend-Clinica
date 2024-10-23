@@ -13,17 +13,17 @@ const Board = () => {
             <Container className='py-4 d-flex flex-column justify-content-center align-items-center'>
                 <h1 className='fs-1 text-white'>¡Bienvenido Dr.Mauricio Soria!</h1>
                 <h4 className='fs-4 text-white'>Seleccione una opcion</h4>
-                <Container className='d-flex  justify-content-around align-items-center'>
-                    <Button onClick={()=>navigate("/Register")}>
-                        <Card className='mt-4' style={{ width: "300px", height: "300px", backgroundColor: "yellow" }}>
+                <Container className='d-flex flex-column flex-lg-row justify-content-around align-items-center'>
+                <Button className='mt-4 bg-warning'style={{borderColor:"#ffc107"}} onClick={()=>navigate("/Register")}>
+                        <Card  className='bg-warning' style={{ width: "300px", height: "300px",borderColor:"#ffc107" }}>
                             <Card.Body>
                                 <Card.Title className='fs-3 text-white'>Registrar Paciente</Card.Title>
                                 <Image src={RegisterIcon} className=" object-fit-contain" width={200} />
                             </Card.Body>
                         </Card>
                     </Button>
-                    <Button onClick={()=>navigate("/Main")}>
-                        <Card className='mt-4' style={{ width: "300px", height: "300px", backgroundColor: "blue" }}>
+                    <Button className='mt-4' onClick={()=>navigate("/Main")}>
+                        <Card  className='bg-primary border-primary' style={{ width: "300px", height: "300px" }}>
                             <Card.Body>
                                 <Card.Title className='fs-3 text-white'>Buscar Paciente</Card.Title>
                                 <Image src={SearchIcon} className=" object-fit-contain" width={200} />

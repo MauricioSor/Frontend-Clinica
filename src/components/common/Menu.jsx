@@ -22,12 +22,12 @@ const Menu = () => {
                 <Container fluid>
                     <Navbar.Brand href="#" className='d-flex text-white'>
                         <Button onClick={()=>navigate("/")} className='text-decoration-none' style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }}>
-                            <Image src={Logo} style={{ height: "110px" }} alt="Logo Web" className='mx-2 mt-3' roundedCircle />
+                            <Image src={Logo} style={{ height: "100px" }} alt="Logo Web" className='mx-2 mt-3' roundedCircle />
                         </Button>
                         <p className='ms-2 mt-5 fs-4 text-white'>Mi Clinica</p>
                     </Navbar.Brand>
                     <Navbar.Toggle className='text-white' aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="navbarScroll" className=' responsive-navbar-nav' >
+                    <Navbar.Collapse id="navbarScroll" className='responsive-navbar-nav' >
                         <Nav className="ms-auto" style={{ maxHeight: '100px' }} navbarScroll>
                             <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() => { handleChange() }} className='text-decoration-none text-white me-4 fs-5' >Iniciar sesion</Button>
                         </Nav>

@@ -9,6 +9,8 @@ import Register from './views/Register'
 import MedicalRecord from './views/MedicalRecord'
 import Evolution from './views/Evolution'
 import NewEvolution from './views/NewEvolution'
+import LaboratoryOder from './views/LaboratoryOder'
+import DigitalPrescription from './views/DigitalPrescription'
 
 function App() {
 
@@ -24,6 +26,8 @@ function App() {
           <Route exact path="/Hc" element={<MedicalRecord/>} />
           <Route exact path="/Evolution" element={<Evolution/>} />
           <Route exact path="/Evolution/New" element={<NewEvolution/>} />
+          <Route exact path="/Evolution/LaboratoryOrder" element={<LaboratoryOder/>} />
+          <Route exact path="/Evolution/DigitalPrescription" element={<DigitalPrescription/>} />
         </Routes>
         <Footer />
       </HashRouter>

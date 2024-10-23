@@ -36,8 +36,8 @@ const MedicalRecord = () => {
     return (<>
         <Container className="my-5">
             <h1 className='fs-1 text-center mb-4'>Paciente Agustin Mauricio Soria</h1>
-            <Container className='d-flex justify-content-around'>
-                <Card className="text-center" style={{ width: '24rem' }}>
+            <Container className='d-flex flex-column flex-lg-row justify-content-around'>
+                <Card className="text-center my-2" style={{ width: '24rem' }}>
                     <h2 className='fs-2 mt-3'>Datos</h2>
                     <hr />
                     <Card.Body>
@@ -49,7 +49,7 @@ const MedicalRecord = () => {
                         ))}
                     </Card.Body>
                 </Card>
-                <Card className="text-center p-2" style={{ width: '24rem' }}>
+                <Card className="text-center my-2 " style={{ width: '24rem' }}>
                     <h2 className='fs-2 mt-3'>Sintomas diagnosticados</h2>
                     <hr />
                     <Card.Body>
