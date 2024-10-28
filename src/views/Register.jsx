@@ -2,15 +2,23 @@ import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { createPatient } from '../API/Patient';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const navigate=useNavigate("")
-
+    
+    const registerPatient=(data)=>{
+        console.log(data)
+        createPatient(data).then(resp=>{
+            console.log(resp)
+            
+        })
+    }
     return (
         <Container>
             <h1 className='fs-1 text-center my-5'>Registro de paciente</h1>
-            <Form className='my-5'>
+            <Form className='my-5'onSubmit={handleSubmit(registerPatient)}>
                 <Form.Group className="d-flex">
                     <Form.Label>Nombre</Form.Label>
                     <Form.Control
@@ -18,10 +26,6 @@ const Register = () => {
                         placeholder="Ingrese nombre..."
                         {...register('nombre', {
                             required: 'El nombre es un dato obligatorio',
-                            pattern: {
-                                value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=? ^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a -z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
-                                message: 'El nombre debe tener el siguiente formato mail@dominio.com'
-                            }
                         })}
                     />
                     <Form.Text className="text-danger">
@@ -35,10 +39,6 @@ const Register = () => {
                     placeholder="Ingrese cuil..."
                     {...register('cuil', {
                         required: 'El cuil es un dato obligatorio',
-                        pattern: {
-                            value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=? ^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a -z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
-                            message: 'El cuil debe tener el siguiente formato mail@dominio.com'
-                        }
                     })}
                 />
                 <Form.Text className="text-danger">
@@ -52,10 +52,6 @@ const Register = () => {
                     placeholder="Ingrese pasaporte..."
                     {...register('pasaporte', {
                         required: 'El pasaporte es un dato obligatorio',
-                        pattern: {
-                            value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=? ^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a -z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
-                            message: 'El pasaporte debe tener el siguiente formato mail@dominio.com'
-                        }
                     })}
                 />
                 <Form.Text className="text-danger">
@@ -69,10 +65,6 @@ const Register = () => {
                     placeholder="Ingrese obra social..."
                     {...register('obraSocial', {
                         required: 'El obraSocial es un dato obligatorio',
-                        pattern: {
-                            value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=? ^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a -z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
-                            message: 'El obraSocial debe tener el siguiente formato mail@dominio.com'
-                        }
                     })}
                 />
                 <Form.Text className="text-danger">
@@ -82,14 +74,10 @@ const Register = () => {
                 <Form.Group className="d-flex">
                 <Form.Label>Fecha de Nacimiento</Form.Label>
                 <Form.Control
-                    type="text"
+                    type="date"
                     placeholder="Ingrese fecha de nacimiento..."
                     {...register('fechNac', {
                         required: 'El fecha de nacimiento es un dato obligatorio',
-                        pattern: {
-                            value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=? ^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a -z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
-                            message: 'El fechNac debe tener el siguiente formato mail@dominio.com'
-                        }
                     })}
                 />
                 <Form.Text className="text-danger">

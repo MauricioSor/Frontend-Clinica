@@ -4,17 +4,36 @@ import { useState } from 'react';
 import Logo from "../../assets/ClinicaLogo2.png"
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { newLogin } from '../../API/Login';
+import Swal from 'sweetalert2';
 
-const Menu = () => {
+const Menu = ({userLog,LoginUser}) => {
+
     const [openMenu, setOpenMenu] = useState(false)
     const changeStateMenu = () => setOpenMenu(!openMenu)
     const [show, setShow] = useState(false);
     const handleChange = () => setShow(!show);
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const navigate=useNavigate("")
-    const login=()=>{
-        navigate("/Board")
+    const login=(user)=>{
+        newLogin(user).then(resp=>{
+            if(resp.status==200){
+                Swal.fire("Bienvenido  "+resp.data.nombre,"ola","success")
+                localStorage.setItem("nombre",resp.data.nombre)
+                localStorage.setItem("rol",resp.data.rol)
+                LoginUser(resp.data.nombre)
+                navigate("/Board")
+            }else{
+                Swal.fire("Error","usuario o contraseña incorrectos","error");
+            }
+        })
         handleChange();
+    }
+    const LogOut=()=>{
+        localStorage.clear()
+        LoginUser(null)
+        Swal.fire("Cerraste sesión","","success")
+        navigate("/")
     }
     return (
         <>
@@ -29,7 +48,16 @@ const Menu = () => {
                     <Navbar.Toggle className='text-white' aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="navbarScroll" className='responsive-navbar-nav' >
                         <Nav className="ms-auto" style={{ maxHeight: '100px' }} navbarScroll>
-                            <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() => { handleChange() }} className='text-decoration-none text-white me-4 fs-5' >Iniciar sesion</Button>
+                            {
+                                userLog?(
+                                    <>
+                                    <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }}  className='text-decoration-none text-white me-4 fs-5' >{userLog}</Button>
+                                    <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() =>navigate("/Board") } className='text-decoration-none text-white me-4 fs-5' >Board</Button>
+                                    <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() =>  LogOut() } className='text-decoration-none text-white me-4 fs-5' >Cerrar sesión</Button>
+                                    </>
+                                ):(
+                                    <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() => handleChange()} className='text-decoration-none text-white me-4 fs-5' >Iniciar sesion</Button>)
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -46,7 +74,7 @@ const Menu = () => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Ingrese Correo electronico..."
-                                    defaultValue="mauricio@admin.com"
+                                    defaultValue="mauricioutn123@gmail.com"
                                     {...register('email', {
                                         required: 'El email es un dato obligatorio',
                                         pattern: {
@@ -64,7 +92,7 @@ const Menu = () => {
                                 <Form.Control
                                     type="password"
                                     placeholder="Ingrese Contraseña"
-                                    defaultValue="Mauricio123"
+                                    defaultValue="Mauricio123!"
                                     {...register('contraseña', {
                                         required: 'La contraseña es obligatoria',
                                         pattern: {

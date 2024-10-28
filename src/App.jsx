@@ -11,13 +11,17 @@ import Evolution from './views/Evolution'
 import NewEvolution from './views/NewEvolution'
 import LaboratoryOder from './views/LaboratoryOder'
 import DigitalPrescription from './views/DigitalPrescription'
+import { useState } from 'react'
 
 function App() {
 
+  const user=localStorage.getItem("nombre")|| null
+  const [userLog,setUser]=useState(user)
+  const LoginUser=(userData)=>setUser(userData)
   return (
     <>
       <HashRouter>
-        <Menu />
+        <Menu userLog={userLog} LoginUser={LoginUser}/>
         <Routes>
           <Route exact path="/" element={<Initial/>}/>
           <Route exact path="/Main" element={<SearchPatient/>} />
