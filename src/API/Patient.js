@@ -1,9 +1,9 @@
 import axios from "axios";
-const url =import.meta.env.VITE_CLINICA 
+const url = import.meta.env.VITE_CLINICA
 
-export const createPatient=(Patient)=>{
-    try{
-        const response= axios.post(`${url}/Pacientes/Create`,{
+export const createPatient = (Patient) => {
+    try {
+        const response = axios.post(`${url}/Pacientes/Create`, {
             "nombre": Patient.nombre,
             "cuil": Patient.cuil,
             "pasaporte": Patient.pasaporte,
@@ -11,8 +11,24 @@ export const createPatient=(Patient)=>{
             "estado": true,
             "fechaNacimiento": Patient.fechNac
         })
-        console.log(response)
         return response;
+    } catch (e) {
+        return e;
+    }
+}
+export const searchPatientParam = (param) => {
+    try {
+        const resp=axios.get(`${url}/Pacientes/getPaciente?parameter=${param.paramt}`)
+        return resp;
+    } catch (e) {
+        return e
+    }
+}
+export const searchDiagnostic=(data)=>{
+    
+    try{
+        const resp= axios.get(`${url}/Pacientes/getHistoriaClinica?idHistoriaClinica=${data.id}`)
+        return resp;
     }catch(e){
         return e;
     }

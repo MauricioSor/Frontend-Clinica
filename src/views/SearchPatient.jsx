@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Form, InputGroup, Table } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { FaSearch } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
-import { useNavigate } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { searchPatientParam } from '../API/Patient';
+import Swal from 'sweetalert2';
+import { dateParse } from '../utils/parse';
 
 const SearchPatient = () => {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
-    const busquedaDni = (datos) => {
-        console.log("Buscar paciente por DNI" + datos.dni)
+    const [load, setLoad] = useState(false)
+    const [data, setData] = useState("")
+    const busquedaDni = (param) => {
+        searchPatientParam(param).then((response) => {
+            if(response.status==200){
+                setData(response.data)
+
+                setLoad(true)
+            }else{
+                Swal.fire("Error","Error al conectar con el servidor","error")
+            }
+        })
     }
     return (<>
         <Container className='my-5'>
@@ -20,57 +33,65 @@ const SearchPatient = () => {
                 <Container className='d-flex flex-column'>
                     <InputGroup>
                         <Form.Control
-                            type="number"
+                            type="text"
                             placeholder="Pj. 12345678"
-                            {...register('dni', {
+                            {...register('paramt', {
                                 minLength: {
                                     value: 8,
-                                    message: "DNI debe tener 8 caracteres",
-                                },
-                                maxLength: {
-                                    value: 8,
-                                    message: "DNI debe tener 8 caracteres",
-                                },
+                                    message: "El campo debe tener 8 caracteres",
+                                }
                             })}
                         />
                         <InputGroup.Text>
                             <FaSearch />
                         </InputGroup.Text>
                     </InputGroup>
-                    <Form.Text className='text-danger'>{errors.dni?.message}</Form.Text>
+                    <Button type="submit" variant='primary'>Buscar</Button>
+                    <Form.Text className='text-danger'>{errors.paramt?.message}</Form.Text>
                 </Container>
             </Form>
         </Container>
-        <Container className='my-5'>
-            <Table responsive striped bordered hover className="text-center">
-                <thead>
-                    <tr>
-                        <th>CUIL</th>
-                        <th>Pasaporte</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Obra social</th>
-                        <th>Estado</th>
-                        <th>Fecha de Nacimiento</th>
-                        <th>Opciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>31234123</td>
-                        <td>-</td>
-                        <td>Mauricio</td>
-                        <td>Soria</td>
-                        <td>Swiss Medical</td>
-                        <td><strong style={{color:"green"}}>Activo</strong></td>
-                        <td>02-04-1998</td>
-                        <td>
-                            <Button onClick={()=>navigate("/Hc")} variant="success" size="sm" className="me-2">Ver Historia Clinica</Button>
-                        </td>
-                    </tr>
-                </tbody>
-            </Table>
-        </Container>
+        {
+            load ? (
+                <>
+                    <Container className='my-5'>
+                        <Table responsive striped bordered hover className="text-center">
+                            <thead>
+                                <tr>
+                                    <th>CUIL</th>
+                                    <th>Pasaporte</th>
+                                    <th>Nombre</th>
+                                    <th>Obra social</th>
+                                    <th>Estado</th>
+                                    <th>Fecha de Nacimiento</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    {
+                                        [data].map((item, index) => 
+                                            (<>
+                                                <td>{item.cuil}</td>
+                                                <td>{item.pasaporte}</td>
+                                                <td>{item.nombre}</td>
+                                                <td>{item.obraSocial}</td>
+                                                <td className={item.estado ? ('text-success') : ('text-danger')}><strong>{item.estado ? (`Activo`) : (`Inactivo`)}</strong></td>
+                                                <td>{dateParse(item.fechaNacimiento)}</td>
+                                                <td>
+                                                    <NavLink  end  to={`/HC/${item.historiaClinica.idHistoriaClinica}`}  variant="success" size="sm" className="btn btn-success me-2">Ver Historia Clinica</NavLink>
+                                                </td>
+                                                </>)
+                                    )
+                                    }
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Container>
+
+                </>
+            ) : (<></>)
+        }
     </>);
 };
 

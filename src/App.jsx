@@ -27,7 +27,7 @@ function App() {
           <Route exact path="/Main" element={<SearchPatient/>} />
           <Route exact path="/Board" element={<Board/>} />
           <Route exact path="/Register" element={<Register/>} />
-          <Route exact path="/Hc" element={<MedicalRecord/>} />
+          <Route exact path="/Hc/:id" element={<MedicalRecord/>} />
           <Route exact path="/Evolution" element={<Evolution/>} />
           <Route exact path="/Evolution/New" element={<NewEvolution/>} />
           <Route exact path="/Evolution/LaboratoryOrder" element={<LaboratoryOder/>} />

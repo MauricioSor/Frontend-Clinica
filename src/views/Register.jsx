@@ -3,16 +3,20 @@ import { Container, Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { createPatient } from '../API/Patient';
+import Swal from 'sweetalert2';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const navigate=useNavigate("")
     
     const registerPatient=(data)=>{
-        console.log(data)
         createPatient(data).then(resp=>{
-            console.log(resp)
-            
+            if(resp.status==200){
+                Swal.fire("Paciente creado","Paciente creado exitosamente",'success');
+                navigate("/Board")
+            }else{
+                Swal.fire("Error","Error al conectar con el servidor. Intente mas tarde",'error');
+            }
         })
     }
     return (

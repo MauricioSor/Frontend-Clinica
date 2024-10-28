@@ -34,7 +34,6 @@ const Evolution = () => {
             <Container className='d-flex my-4 '>
                 {
                     evolucionData.map((evolucion, index) => {
-                        console.log(evolucion)
                         return (
                             <Card className='p-1' key={index}>
                                 <h4 className='mt-3 text-center'>{evolucion.fecha}</h4>

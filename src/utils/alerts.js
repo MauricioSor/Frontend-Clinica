@@ -49,7 +49,6 @@ export const Receta = () => {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log("navegar")
             navigate("/Evolution/DigitalPrescription")
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
