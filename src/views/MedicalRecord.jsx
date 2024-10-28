@@ -48,7 +48,7 @@ const MedicalRecord = () => {
         {
             load ? (
                 <Container className="my-5">
-                    <h1 className='fs-1 text-center mb-4'>Paciente Agustin Mauricio Soria</h1>
+                    <h1 className='fs-1 text-center mb-4'>Paciente: {localStorage.getItem("nombre")}</h1>
                     <Container className='d-flex flex-column flex-lg-row justify-content-around'>
                         <Card className="text-center my-2" style={{ width: '24rem' }}>
                             <h2 className='fs-2 mt-3'>Datos</h2>
