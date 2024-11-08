@@ -1,0 +1,103 @@
+{
+  "src": {
+    "components": {
+      "common": {
+        "Button.tsx": null,
+        "Input.tsx": null,
+        "Modal.tsx": null
+      },
+      "layout": {
+        "Layout.tsx": null,
+        "EncabezadoHistoriaClinica.tsx": null,
+        "PieHistoriaClinica.tsx": null
+      },
+      "pacientes": {
+        "ListaPacientes.tsx": null,
+        "DatosPaciente.tsx": null,
+        "NuevoPaciente.tsx": null,
+        "BuscadorPacientes.tsx": null
+      },
+      "evoluciones": {
+        "ListaEvoluciones.tsx": null,
+        "NuevaEvolucion.tsx": null,
+        "EvolucionItem.tsx": null,
+        "EvolucionList.tsx": null,
+        "EvolucionModal.tsx": null,
+        "EvolucionDetails.tsx": null,
+        "ItemEvolucion.tsx": null
+      },
+      "diagnosticos": {
+        "ListaDiagnosticos.tsx": null,
+        "BuscadorDiagnosticos.tsx": null,
+        "DiagnosticosPrevios.tsx": null,
+        "NuevoDiagnosticoChip.tsx": null
+      },
+      "recetas": {
+        "ListaRecetas.tsx": null,
+        "RecetaDigitalModal.tsx": null,
+        "Receta.tsx": null,
+        "DetalleRecetaModal.tsx": null,
+        "RecetaDigitalDetails.tsx": null
+      },
+      "laboratorio": {
+        "PedidoLaboratorioModal.tsx": null,
+        "PedidoLaboratorio.tsx": null,
+        "PedidoLaboratorioDetails.tsx": null
+      },
+      "historiaClinica": {
+        "HistoriaClinica.tsx": null
+      },
+      "citas": {
+        "Citas.tsx": null
+      },
+      "configuracion": {
+        "Configuracion.tsx": null
+      },
+      "plantillas": {
+        "Plantilla.tsx": null
+      },
+      "descripcion": {
+        "DescripcionEvolucion.tsx": null
+      }
+    },
+    "pages": {
+      "Home.tsx": null,
+      "Pacientes.tsx": null,
+      "HistoriaClinica.tsx": null,
+      "Citas.tsx": null,
+      "Configuracion.tsx": null,
+      "NuevaEvolucion.tsx": null
+    },
+    "hooks": {
+      "usePacientes.ts": null,
+      "useEvoluciones.ts": null,
+      "useDiagnosticos.ts": null,
+      "useRecetas.ts": null,
+      "useLaboratorio.ts": null
+    },
+    "context": {
+      "ThemeContext.tsx": null,
+      "AuthContext.tsx": null
+    },
+    "services": {
+      "api.ts": null,
+      "auth.ts": null
+    },
+    "utils": {
+      "dateUtils.ts": null,
+      "formatters.ts": null
+    },
+    "types": {
+      "index.ts": null
+    },
+    "styles": {
+      "index.css": null,
+      "tailwind.css": null
+    },
+    "store": {
+      "evolutionStore.ts": null
+    },
+    "App.tsx": null,
+    "main.tsx": null
+  }
+}
