@@ -7,32 +7,57 @@ import { useNavigate } from 'react-router-dom';
 import { newLogin } from '../../API/Login';
 import Swal from 'sweetalert2';
 
-const Menu = ({userLog,LoginUser}) => {
+const Menu = ({ userLog, LoginUser }) => {
 
     const [openMenu, setOpenMenu] = useState(false)
     const changeStateMenu = () => setOpenMenu(!openMenu)
     const [show, setShow] = useState(false);
     const handleChange = () => setShow(!show);
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
-    const navigate=useNavigate("")
-    const login=(user)=>{
-        newLogin(user).then(resp=>{
-            if(resp.status==200){
-                Swal.fire("Bienvenido  "+resp.data.nombre,"ola","success")
-                localStorage.setItem("nombre",resp.data.nombre)
-                localStorage.setItem("rol",resp.data.rol)
-                LoginUser(resp.data.nombre)
-                navigate("/Board")
-            }else{
-                Swal.fire("Error","usuario o contraseña incorrectos","error");
-            }
-        })
+    const navigate = useNavigate("")
+    const admin = {
+        email: "admin@clinica.com",
+        password: "Admin123!",
+        dni: "12345678",
+        cuil: "20-12345678-9",
+        apellido: "Rodriguez",
+        nombre: "Pedro",
+        fechaNacimiento: "1980-01-01",
+        direccion: "Sarmiento 560",
+        localidad: "Yerba Buena",
+        provincia: "Tucumán",
+        pais: "Argentina",        
+        telefono: "123456789",
+        matricula: "12345",
+        especialidad: "Cardiología",
+        usuario: "pedroR",
+        tipoUsuario: "medico"
+    }
+    const comprobarAdmin = (userLog) => {
+        console.log(userLog);
+        
+        if (userLog.email === admin.email && userLog.contraseña === admin.password) {
+            return true
+        } else {
+            return false
+        }
+    }
+    const login = (user) => {
+        var admin = comprobarAdmin(user)
+        admin == true ? navigate("/AdminBoard") : null
+        console.log(admin);
+        if (admin) {
+            Swal.fire("Bienvenido  " + admin.nombre, "", "success")
+            localStorage.setItem("usuario",admin)
+            navigate("/Board")
+        }
         handleChange();
     }
-    const LogOut=()=>{
+
+    const LogOut = () => {
         localStorage.clear()
         LoginUser(null)
-        Swal.fire("Cerraste sesión","","success")
+        Swal.fire("Cerraste sesión", "", "success")
         navigate("/")
     }
     return (
@@ -40,7 +65,7 @@ const Menu = ({userLog,LoginUser}) => {
             <Navbar style={{ background: "#242c4f" }} expand="md" expanded={openMenu} onClick={changeStateMenu} className="site-wrap">
                 <Container fluid>
                     <Navbar.Brand href="#" className='d-flex text-white'>
-                        <Button onClick={()=>navigate("/")} className='text-decoration-none' style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }}>
+                        <Button onClick={() => navigate("/")} className='text-decoration-none' style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }}>
                             <Image src={Logo} style={{ height: "100px" }} alt="Logo Web" className='mx-2 mt-3' roundedCircle />
                         </Button>
                         <p className='ms-2 mt-5 fs-4 text-white'>Mi Clinica</p>
@@ -49,13 +74,13 @@ const Menu = ({userLog,LoginUser}) => {
                     <Navbar.Collapse id="navbarScroll" className='responsive-navbar-nav' >
                         <Nav className="ms-auto" style={{ maxHeight: '100px' }} navbarScroll>
                             {
-                                userLog?(
+                                userLog ? (
                                     <>
-                                    <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }}  className='text-decoration-none text-white me-4 fs-5' >{userLog}</Button>
-                                    <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() =>navigate("/Board") } className='text-decoration-none text-white me-4 fs-5' >Board</Button>
-                                    <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() =>  LogOut() } className='text-decoration-none text-white me-4 fs-5' >Cerrar sesión</Button>
+                                        <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} className='text-decoration-none text-white me-4 fs-5' >{userLog}</Button>
+                                        <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() => navigate("/Board")} className='text-decoration-none text-white me-4 fs-5' >Board</Button>
+                                        <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() => LogOut()} className='text-decoration-none text-white me-4 fs-5' >Cerrar sesión</Button>
                                     </>
-                                ):(
+                                ) : (
                                     <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() => handleChange()} className='text-decoration-none text-white me-4 fs-5' >Iniciar sesion</Button>)
                             }
                         </Nav>
@@ -74,7 +99,7 @@ const Menu = ({userLog,LoginUser}) => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Ingrese Correo electronico..."
-                                    defaultValue="mauricioutn123@gmail.com"
+                                    defaultValue="admin@clinica.com"
                                     {...register('email', {
                                         required: 'El email es un dato obligatorio',
                                         pattern: {
@@ -92,7 +117,7 @@ const Menu = ({userLog,LoginUser}) => {
                                 <Form.Control
                                     type="password"
                                     placeholder="Ingrese Contraseña"
-                                    defaultValue="Mauricio123!"
+                                    defaultValue="Admin123!"
                                     {...register('contraseña', {
                                         required: 'La contraseña es obligatoria',
                                         pattern: {
