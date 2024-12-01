@@ -1,33 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { HashRouter, Route, Routes } from 'react-router-dom'
+import Initial from './views/Initial'
+import Footer from './components/common/Footer'
+import Menu from './components/common/Menu'
+import SearchPatient from './views/SearchPatient'
+import Board from './views/Board'
+import Register from './views/Register'
+import MedicalRecord from './views/MedicalRecord'
+import Evolution from './views/Evolution'
+import NewEvolution from './views/NewEvolution'
+import LaboratoryOder from './views/LaboratoryOder'
+import DigitalPrescription from './views/DigitalPrescription'
+import { useState } from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
 
+  const user=localStorage.getItem("usuario")|| null
+  const [userLog,setUser]=useState(user)
+  const LoginUser=(userData)=>setUser(userData)
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <HashRouter>
+        <Menu userLog={userLog} LoginUser={LoginUser}/>
+        <Routes>
+          <Route exact path="/" element={<Initial/>}/>
+          <Route exact path="/Main" element={<SearchPatient/>} />
+          <Route exact path="/Board" element={<Board/>} />
+          <Route exact path="/Register" element={<Register/>} />
+          <Route exact path="/Hc/:id" element={<MedicalRecord/>} />
+          <Route exact path="/Evolution/:id" element={<Evolution/>} />
+          <Route exact path="/Evolution/New" element={<NewEvolution/>} />
+          <Route exact path="/Evolution/LaboratoryOrder" element={<LaboratoryOder/>} />
+          <Route exact path="/Evolution/DigitalPrescription" element={<DigitalPrescription/>} />
+        </Routes>
+        <Footer />
+      </HashRouter>
     </>
   )
 }
