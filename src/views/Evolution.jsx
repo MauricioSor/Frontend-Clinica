@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Container, Spinner } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
+import { dateParse, timeParse } from '../utils/parse';
 
 const Evolution = () => {
     const navigate = useNavigate()
     const idDiagnostic = useParams();
     const [evolucionData, setEvolucionData] = useState([""])
     const [load, seLoad] = useState(false)
-    useEffect(() => {
+    
 
+    useEffect(() => {
         const uploadDiagnostic = () => {
             const diagnosticos = JSON.parse(localStorage.getItem("Diagnosticos")) || null
             const evolucion = diagnosticos.filter(e => e.id === idDiagnostic.id);
-            console.log(evolucion)
+            console.log([evolucion[0]])
+            console.log([evolucion[0]].length)
             setEvolucionData(evolucion[0])
             seLoad(true)
         }
@@ -25,30 +28,43 @@ const Evolution = () => {
                 {
                     load ? (<>
                         {(evolucionData.evoluciones).length > 0 ? (
-                            <Card className='p-1' key={index}>
-                                <h4 className='mt-3 text-center'>{evolucion.fecha}</h4>
-                                <hr />
-                                <Card.Body>
-                                    {/* <ul>
-                                            <li>{evolucion.texto}</li>
-                                            <li><b>Medico:</b> {evolucion.medico}</li>
-                                            <li><b>Hora:</b> {evolucion.hora}</li>
-                                            <li><b>Estado:</b> {evolucion.estado ? "Completo" : "Incompleto"}</li>
-                                            <li><b>Receta:</b> {evolucion.receta.map(rec => (
-                                                <div className='ms-5' key={rec.codigoBarra}>
-                                                    <b>Medicamento: </b>{rec.nombre} <br />
-                                                    <b> Estado:</b><span className={`${rec.estado ? ('text-success') : ('text-danger')}`}> {rec.estado ? "Usado" : "Sin usar"}</span>
-                                                </div>
-                                            ))}</li>
-                                            <li><b>Pedido de Laboratorio:</b> {evolucion.pedidoLaboratorio.map(pedido => (
-                                                <div key={pedido.idPedido}>
-                                                    {pedido.texto}
-                                                </div>
-                                            ))}</li>
-                                        </ul> */}
-                                </Card.Body>
-                                <Button variant="warning">Modificar Evolucion</Button>
-                            </Card>
+                            evolucionData.evoluciones.map((item, index) => {
+                                console.log(item)
+                                return (
+                                    <Card className='p-1 mx-2' key={index}>
+                                        <h4 className='mt-3 text-center'>{dateParse(item.fecha)}</h4>
+                                        <hr />
+                                        <Card.Body>
+                                            <ul>
+                                                <li><b>Informe:</b>{item.informe}</li>
+                                                <li><b>Medico:</b> {item.medico.nombre + " " + item.medico.apellido}</li>
+                                                <li><b>Hora:</b> {timeParse(item.fecha)}</li>
+                                                <li><b>Estado:</b> {item.estadoEvolucion}</li>
+                                                <li><b>Receta:</b> {[item.receta].map((itemReceta, index) => 
+                                                {console.log(itemReceta)
+                                                    return(
+                                                    <div className='ms-5' key={index}>
+                                                        <b>Codigo: </b>{itemReceta.codigo} <br />
+                                                        <b>Dosis: </b>{itemReceta.dosis} <br />
+                                                        <b>Medicamentos: </b>{itemReceta.medicamento.descripcion} <br />
+                                                        <b>Formato: </b>{itemReceta.medicamento.formato} <br />
+                                                        <b>Estado:</b><span className={`${itemReceta.estadoReceta ? ('text-success') : ('text-danger')}`}> {itemReceta.estadoReceta ? "Usado" : "Sin usar"}</span>
+                                                    </div>
+                                                )}
+                                                )}</li>
+                                                <li><b>Pedido de Laboratorio:</b> {[item.pedidoLaboratorio].map((pedido, index) => (
+                                                    <div key={index}>
+                                                        <b>Descripcion: </b>{pedido.descripcion} <br />
+                                                        <b>Fecha: </b>{dateParse(pedido.fecha)} <br />
+                                                        <b>Hora: </b>{timeParse(pedido.fecha)} <br />
+                                                    </div>
+                                                ))}</li>
+                                            </ul>
+                                        </Card.Body>
+                                        <Button variant="warning">Modificar Evolucion</Button>
+                                    </Card>
+                                )
+                            })
                         ) : (
                             <h2 className='fs-2 text-center'>No se cargaron evoluciones previamente.</h2>
                         )}
