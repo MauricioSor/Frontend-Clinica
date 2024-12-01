@@ -1,49 +1,71 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Card, Button, Modal, Offcanvas, Spinner } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { searchDiagnostic } from '../API/Patient';
+import { createDiagnostic, searchDiagnostic } from '../API/Patient';
+import Swal from 'sweetalert2';
 
 
 const MedicalRecord = () => {
     const [show, setShow] = useState(false);
-    const [dataPatient, setDataPatient] = useState("")
+    const [dataPatientFetch, setDataPatientFetch] = useState("")
     const [dataDiagnostic, setDataDiagnostic] = useState([""])
     const [load, setLoad] = useState(false)
     const handleChange = () => setShow(!show)
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
     const navigate = useNavigate()
     const idPatient = useParams()
     const patientData = [
-        { label: 'DNI', value: '31234123' },
-        { label: 'Pasaporte', value: '-' },
-        { label: 'Nombre', value: 'Mauricio' },
-        { label: 'Apellido', value: 'Soria' },
-        { label: 'Obra Social', value: 'Swiss Medical' },
-        { label: 'Fecha de Nacimiento', value: '02-04-1998' },
-    ];
-    const DiagnosticData = [
-        { label: 'Fiebre' },
-        { label: 'Dolor de cabeza' },
-        { label: 'Gripe' },
-        { label: 'Sefalea' }
+        { label: 'DNI', value: dataPatientFetch.dni },
+        { label: 'Pasaporte', value: dataPatientFetch.pasa },
+        { label: 'Nombre', value: dataPatientFetch.nombre },
+        { label: 'Apellido', value: dataPatientFetch.apellido },
+        { label: 'Obra Social', value: dataPatientFetch.oraSocial },
+        { label: 'Fecha de Nacimiento', value: dataPatientFetch.fechaNacimiento },
     ];
     const sintomasData = [
-        { label: 'Fiebre' },
-        { label: 'Dolor de cabeza' },
-        { label: 'Gripe' },
-        { label: 'Sefalea' },
-        { label: 'Rinitis' },
-        { label: 'Vomito' },
-        { label: 'Covid' },
+        { name: 'Fiebre' },
+        { name: 'Dolor de cabeza' },
+        { name: 'Gripe' },
+        { name: 'Sefalea' },
+        { name: 'Rinitis' },
+        { name: 'Vomito' },
+        { name: 'Dolor de pierna' },
+        { name: 'Dolor de brazo' },
+        { name: 'Gripe porcina' },
+        { name: 'Amnesia' },
     ]
     useEffect(() => {
+        const paciente = JSON.parse(localStorage.getItem("Paciente"))
+        setDataPatientFetch(paciente)
+        fetchDataPatient();
+    }, [])
+    const fetchDataPatient = () => {
         searchDiagnostic(idPatient).then(resp => {
-            console.log(resp)
-            setDataDiagnostic(resp.data)
+            console.log(resp.data)
+            setDataDiagnostic(resp.data.diagnosticos)
             setLoad(true)
         })
-    }, [])
+    }
+    
+    const handleDiagnostic = (diagnostic) => {
+        if (!(JSON.stringify(dataDiagnostic)).includes(diagnostic)) {
+            createDiagnostic(dataPatientFetch,diagnostic).then(resp => {
+                console.log(resp)
+                console.log(resp.status)
+                if (resp.status == 201) {
+                    Swal.fire("Diagnostico cargado", "", "success")
+                    handleChange()
+                    fetchDataPatient();
+                } else {
+                    Swal.fire("Error al cargar diagnostico", "", "error")
+                    handleChange()
+                }
+            }
+            )
+        } else {
+            Swal.fire("Diagnostico ya existe", "", "warning")
+            handleChange();
+        }
+    }
     return (<>
         {
             load ? (
@@ -66,13 +88,15 @@ const MedicalRecord = () => {
                             <h2 className='fs-2 mt-3'>Sintomas diagnosticados</h2>
                             <hr />
                             <Card.Body>
-                                {
+                                {dataDiagnostic.length > 1 ? (
                                     dataDiagnostic.map((data, index) => {
-                                        return(<Button onClick={() => navigate("/evolution")} key={index} className='p-3 m-2'>
+                                        return (<Button onClick={() => navigate(`/evolution/${data.id}`)} key={index} className='p-3 m-2'>
                                             <span className="font-weight-bold">{data.nombre}</span>
                                         </Button>)
                                     }
-                                    )
+                                    )) : (
+                                    <div className="d-flex flex-column">Sin diagnosticos cargados</div>
+                                )
                                 }
                             </Card.Body>
                             <Button onClick={() => handleChange()}>Nuevo diagnostico</Button>
@@ -94,7 +118,7 @@ const MedicalRecord = () => {
             <Offcanvas.Body className='d-flex flex-column'>
                 {
                     sintomasData.map((data, index) => (
-                        <Button key={index} className='my-3'>{data.label}</Button>
+                        <Button key={index} onClick={() => handleDiagnostic(data.name)} className='my-3'>{data.name}</Button>
                     ))
                 }
             </Offcanvas.Body>

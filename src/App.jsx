@@ -15,7 +15,7 @@ import { useState } from 'react'
 
 function App() {
 
-  const user=localStorage.getItem("nombre")|| null
+  const user=localStorage.getItem("usuario")|| null
   const [userLog,setUser]=useState(user)
   const LoginUser=(userData)=>setUser(userData)
   return (
@@ -28,7 +28,7 @@ function App() {
           <Route exact path="/Board" element={<Board/>} />
           <Route exact path="/Register" element={<Register/>} />
           <Route exact path="/Hc/:id" element={<MedicalRecord/>} />
-          <Route exact path="/Evolution" element={<Evolution/>} />
+          <Route exact path="/Evolution/:id" element={<Evolution/>} />
           <Route exact path="/Evolution/New" element={<NewEvolution/>} />
           <Route exact path="/Evolution/LaboratoryOrder" element={<LaboratoryOder/>} />
           <Route exact path="/Evolution/DigitalPrescription" element={<DigitalPrescription/>} />

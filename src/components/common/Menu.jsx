@@ -34,8 +34,6 @@ const Menu = ({ userLog, LoginUser }) => {
         tipoUsuario: "medico"
     }
     const comprobarAdmin = (userLog) => {
-        console.log(userLog);
-        
         if (userLog.email === admin.email && userLog.contraseña === admin.password) {
             return true
         } else {
@@ -43,17 +41,15 @@ const Menu = ({ userLog, LoginUser }) => {
         }
     }
     const login = (user) => {
-        var admin = comprobarAdmin(user)
-        admin == true ? navigate("/AdminBoard") : null
-        console.log(admin);
-        if (admin) {
+        var adminSession = comprobarAdmin(user)
+        adminSession == true ? navigate("/AdminBoard") : null
+        if (adminSession) {
             Swal.fire("Bienvenido  " + admin.nombre, "", "success")
-            localStorage.setItem("usuario",admin)
+            localStorage.setItem("usuario",JSON.stringify(admin))
             navigate("/Board")
         }
         handleChange();
     }
-
     const LogOut = () => {
         localStorage.clear()
         LoginUser(null)
@@ -76,7 +72,7 @@ const Menu = ({ userLog, LoginUser }) => {
                             {
                                 userLog ? (
                                     <>
-                                        <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} className='text-decoration-none text-white me-4 fs-5' >{userLog}</Button>
+                                        <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} className='text-decoration-none text-white me-4 fs-5' >{JSON.parse(userLog).nombre +" "+JSON.parse(userLog).apellido}</Button>
                                         <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() => navigate("/Board")} className='text-decoration-none text-white me-4 fs-5' >Board</Button>
                                         <Button style={{ backgroundColor: "#242c4f", borderColor: "#242c4f" }} onClick={() => LogOut()} className='text-decoration-none text-white me-4 fs-5' >Cerrar sesión</Button>
                                     </>
@@ -99,7 +95,7 @@ const Menu = ({ userLog, LoginUser }) => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Ingrese Correo electronico..."
-                                    defaultValue="admin@clinica.com"
+                                    defaultValue="pedroR"
                                     {...register('email', {
                                         required: 'El email es un dato obligatorio',
                                         pattern: {
@@ -117,12 +113,12 @@ const Menu = ({ userLog, LoginUser }) => {
                                 <Form.Control
                                     type="password"
                                     placeholder="Ingrese Contraseña"
-                                    defaultValue="Admin123!"
+                                    defaultValue="password123"
                                     {...register('contraseña', {
                                         required: 'La contraseña es obligatoria',
                                         pattern: {
-                                            value: /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/,
-                                            message: 'La contraseña debe tener entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula. No puede tener otros símbolos.'
+                                            //value: /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/,
+                                            //message: 'La contraseña debe tener entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula. No puede tener otros símbolos.'
                                         }
                                     })}
                                 />

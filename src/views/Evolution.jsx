@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, Button, Container } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Evolution = () => {
     const navigate=useNavigate()
+    const idDiagnostic=useParams();
     const evolucionData = [
         {
             id: 1,
@@ -27,7 +28,9 @@ const Evolution = () => {
             ]
         },
     ];
+    useEffect(()=>{
 
+    },[])
     return (
         <Container>
             <h1 className='fs-1 text-center my-4'>Evolucion clinica de <b> Fiebre</b></h1>

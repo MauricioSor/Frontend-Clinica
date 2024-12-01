@@ -6,11 +6,15 @@ import { useNavigate } from 'react-router-dom';
 
 const Board = () => {
     const navigate=useNavigate("")
-
+    const usuario=JSON.parse(localStorage.getItem("usuario"))
+    console.log(usuario);
+    const parseText=(usuario)=>{
+        return usuario.charAt(0).toUpperCase() + usuario.slice(1);
+    }
     return (
         <Container style={{ backgroundColor: "#242c4f" }} className='my-5'>
             <Container className='py-4 d-flex flex-column justify-content-center align-items-center'>
-                <h1 className='fs-1 text-white'>¡Bienvenido {localStorage.getItem("rol")} {localStorage.getItem("nombre")}!</h1>
+                <h1 className='fs-1 text-white'>¡Bienvenido {parseText(usuario.tipoUsuario)+" "+usuario.nombre}!</h1>
                 <h4 className='fs-4 text-white'>Seleccione una opcion</h4>
                 <Container className='d-flex flex-column flex-lg-row justify-content-around align-items-center'>
                 <Button className='mt-4 bg-warning'style={{borderColor:"#ffc107"}} onClick={()=>navigate("/Register")}>
