@@ -13,6 +13,7 @@ const MedicalRecord = () => {
     const handleChange = () => setShow(!show)
     const navigate = useNavigate()
     const idPatient = useParams()
+
     const patientData = [
         { label: 'DNI', value: dataPatientFetch.dni },
         { label: 'Pasaporte', value: dataPatientFetch.pasa },
@@ -43,14 +44,13 @@ const MedicalRecord = () => {
             console.log(resp.data)
             setDataDiagnostic(resp.data.diagnosticos)
             setLoad(true)
+            localStorage.setItem("Diagnosticos",JSON.stringify(resp.data.diagnosticos))
         })
     }
     
     const handleDiagnostic = (diagnostic) => {
         if (!(JSON.stringify(dataDiagnostic)).includes(diagnostic)) {
             createDiagnostic(dataPatientFetch,diagnostic).then(resp => {
-                console.log(resp)
-                console.log(resp.status)
                 if (resp.status == 201) {
                     Swal.fire("Diagnostico cargado", "", "success")
                     handleChange()
@@ -109,7 +109,6 @@ const MedicalRecord = () => {
                 </Container>
             )
         }
-
 
         <Offcanvas style={{ background: "#242c4f" }} placement='end' show={show} onHide={handleChange}>
             <Offcanvas.Header closeButton>
