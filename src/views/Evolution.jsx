@@ -29,7 +29,6 @@ const Evolution = () => {
                     load ? (<>
                         {(evolucionData.evoluciones).length > 0 ? (
                             evolucionData.evoluciones.map((item, index) => {
-                                console.log(item)
                                 return (
                                     <Card className='p-1 mx-2' key={index}>
                                         <h4 className='mt-3 text-center'>{dateParse(item.fecha)}</h4>
@@ -41,7 +40,7 @@ const Evolution = () => {
                                                 <li><b>Hora:</b> {timeParse(item.fecha)}</li>
                                                 <li><b>Estado:</b> {item.estadoEvolucion}</li>
                                                 <li><b>Receta:</b> {[item.receta].map((itemReceta, index) => 
-                                                {console.log(itemReceta)
+                                                {
                                                     return(
                                                     <div className='ms-5' key={index}>
                                                         <b>Codigo: </b>{itemReceta.codigo} <br />

@@ -16,10 +16,10 @@ const MedicalRecord = () => {
 
     const patientData = [
         { label: 'DNI', value: dataPatientFetch.dni },
-        { label: 'Pasaporte', value: dataPatientFetch.pasa },
+        { label: 'Pasaporte', value: dataPatientFetch.pasaporte },
         { label: 'Nombre', value: dataPatientFetch.nombre },
         { label: 'Apellido', value: dataPatientFetch.apellido },
-        { label: 'Obra Social', value: dataPatientFetch.oraSocial },
+        { label: 'Obra Social', value: dataPatientFetch.obraSocial },
         { label: 'Fecha de Nacimiento', value: dataPatientFetch.fechaNacimiento },
     ];
     const sintomasData = [
@@ -41,7 +41,7 @@ const MedicalRecord = () => {
     }, [])
     const fetchDataPatient = () => {
         searchDiagnostic(idPatient).then(resp => {
-            console.log(resp.data)
+            console.log(resp.data.diagnosticos.length)
             setDataDiagnostic(resp.data.diagnosticos)
             setLoad(true)
             localStorage.setItem("Diagnosticos",JSON.stringify(resp.data.diagnosticos))
@@ -70,7 +70,7 @@ const MedicalRecord = () => {
         {
             load ? (
                 <Container className="my-5">
-                    <h1 className='fs-1 text-center mb-4'>Paciente: {localStorage.getItem("nombre")}</h1>
+                    <h1 className='fs-1 text-center mb-4'>Paciente: {patientData[2].value+" "+patientData[3].value}</h1>
                     <Container className='d-flex flex-column flex-lg-row justify-content-around'>
                         <Card className="text-center my-2" style={{ width: '24rem' }}>
                             <h2 className='fs-2 mt-3'>Datos</h2>
@@ -88,7 +88,7 @@ const MedicalRecord = () => {
                             <h2 className='fs-2 mt-3'>Sintomas diagnosticados</h2>
                             <hr />
                             <Card.Body>
-                                {dataDiagnostic.length > 1 ? (
+                                {dataDiagnostic.length > 0 ? (
                                     dataDiagnostic.map((data, index) => {
                                         return (<Button onClick={() => navigate(`/evolution/${data.id}`)} key={index} className='p-3 m-2'>
                                             <span className="font-weight-bold">{data.nombre}</span>
