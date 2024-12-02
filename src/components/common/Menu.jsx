@@ -98,10 +98,10 @@ const Menu = ({ userLog, LoginUser }) => {
                                     defaultValue="pedroR"
                                     {...register('email', {
                                         required: 'El email es un dato obligatorio',
-                                        pattern: {
+                                        /* pattern: {
                                             value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=? ^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a -z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
                                             message: 'El email debe tener el siguiente formato mail@dominio.com'
-                                        }
+                                        } */
                                     })}
                                 />
                                 <Form.Text className="text-danger">

@@ -8,14 +8,12 @@ const Evolution = () => {
     const idDiagnostic = useParams();
     const [evolucionData, setEvolucionData] = useState([""])
     const [load, seLoad] = useState(false)
-    
+    const paciente= JSON.parse(localStorage.getItem("Paciente"))
 
     useEffect(() => {
         const uploadDiagnostic = () => {
             const diagnosticos = JSON.parse(localStorage.getItem("Diagnosticos")) || null
             const evolucion = diagnosticos.filter(e => e.id === idDiagnostic.id);
-            console.log([evolucion[0]])
-            console.log([evolucion[0]].length)
             setEvolucionData(evolucion[0])
             seLoad(true)
         }
@@ -24,12 +22,12 @@ const Evolution = () => {
     return (
         <Container>
             <h1 className='fs-1 text-center my-4'>Evolucion clinica de diagnostico:<b> {evolucionData.nombre}</b></h1>
+            <Button variant='secondary' onClick={()=>navigate(`/Hc/${paciente.dni}`)}><h4><i className="bi bi-arrow-left-circle"/> Volver</h4></Button>
             <Container className='d-flex my-4 '>
                 {
                     load ? (<>
                         {(evolucionData.evoluciones).length > 0 ? (
                             evolucionData.evoluciones.map((item, index) => {
-                                console.log(item)
                                 return (
                                     <Card className='p-1 mx-2' key={index}>
                                         <h4 className='mt-3 text-center'>{dateParse(item.fecha)}</h4>
@@ -41,7 +39,7 @@ const Evolution = () => {
                                                 <li><b>Hora:</b> {timeParse(item.fecha)}</li>
                                                 <li><b>Estado:</b> {item.estadoEvolucion}</li>
                                                 <li><b>Receta:</b> {[item.receta].map((itemReceta, index) => 
-                                                {console.log(itemReceta)
+                                                {
                                                     return(
                                                     <div className='ms-5' key={index}>
                                                         <b>Codigo: </b>{itemReceta.codigo} <br />
@@ -72,7 +70,7 @@ const Evolution = () => {
                 }
             </Container>
             <Container className='d-flex flex-column'>
-                <Button onClick={() => navigate("/Evolution/new")} className='mx-5 p-3 my-5' >
+                <Button onClick={() => navigate(`/Evolution/new/${idDiagnostic.id}`)} className='mx-5 p-3 my-5' >
                     Nueva Evolucion
                 </Button>
             </Container>
