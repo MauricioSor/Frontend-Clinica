@@ -15,7 +15,6 @@ const SearchPatient = () => {
     const busquedaDni = (param) => {
         searchPatientParam(param).then((response) => {
             if (response.status === 200) {
-                
                 setData(response.data);
                 setLoad(true);
             } else {

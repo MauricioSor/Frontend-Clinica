@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { PedidoLab, Receta } from '../utils/alerts';
 import { loadMedicineAll, searchByName } from '../API/Medicine';
 import Swal from 'sweetalert2';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { uploadEvolution } from '../API/Patient';
 
 const NewEvolution = () => {
@@ -18,17 +18,15 @@ const NewEvolution = () => {
     const [medicines, setMedicines] = useState(null)
     const handleChangeModal = () => setModalShow(!modalShow)
     const idDiagnostico=useParams()
-    
+    const navigate=useNavigate()
+
     const[informe,setInforme]=useState()
     const[receta,setReceta]=useState({descripcion: '',dosis: '',codigo:''});
     const[pedidoLab,setPedidoLab]=useState({descripcion:'',fecha:''})
     
     const enviar = () => {
-        console.log(informe)
-        console.log(pedidoLab)
-        console.log(receta)
-        const usuario=JSON.parse(localStorage.getItem("usuario"))
         const paciente =JSON.parse(localStorage.getItem("Paciente"))
+        const usuario=JSON.parse(localStorage.getItem("usuario"))
         const evolution={
             informe:informe,
             medicoDni:usuario.dni,
@@ -42,8 +40,12 @@ const NewEvolution = () => {
             }
         }
         uploadEvolution(evolution,paciente.dni,idDiagnostico.id).then((resp)=>{
-            console.log(resp)
-            console.log(resp.status)
+            if(resp.status==201){
+                Swal.fire("Evolucion creada","","success")
+                navigate(`/Evolution/${idDiagnostico.id}`)
+            }else{
+                Swal.fire("Error", "Error al conectar con el servidor", "error")
+            }
         })
     }
     const handleSelectMed = (Med) => {
@@ -53,7 +55,6 @@ const NewEvolution = () => {
     const handleMed = () => {
         handleChangeModal()
         loadMedicineAll(page).then(resp => {
-            console.log(resp.status)
             if (resp.status == 200) {
                 setData(resp.data)
                 setLoad(true)
@@ -80,13 +81,15 @@ const NewEvolution = () => {
         <>
             <Container>
                 <h1 className='fs-1 text-center'>Nueva Evolucion clinica del diagnostico: { diagnostico()}</h1>
-                <Container className='my-5 d-flex justify-content-around'>
+                <Button variant="secondary"onClick={()=>navigate(`/Evolution/${idDiagnostico.id}`)}><h4><i className="bi bi-arrow-left-circle"></i> Volver</h4></Button>
+                <Container  className='my-5 d-flex justify-content-around'>
                     <Form className='border d-flex flex-column justify-content-center p-5' onSubmit={handleSubmit(enviar)}>
-                        <h4 className='fs-4 text-center my-2'>Datos de evolucion</h4>
+                        <h4 className='fs-2 text-center my-2'>Datos de evolucion</h4>
                         <Form.Group className='d-flex'>
                             <Form.Label className='mx-2 mt-2'>Descripcion</Form.Label>
                             <input
                                 type="text"
+                                style={{width:"300px",height:"40px"}}
                                 placeholder='Informe de evolucion clinica...'
                                 onChange={(e)=>setInforme(e.target.value)}
                             />
@@ -101,12 +104,14 @@ const NewEvolution = () => {
                 </Container>
                 <Container className='my-5 d-flex justify-content-around'>
                     <Form className='border d-flex flex-column justify-content-center p-5' onSubmit={handleSubmit(enviar)}>
-                        <h4 className='fs-4 text-center my-2'>Receta</h4>
-                        <Form.Group className='d-flex'>
+                        <h4 className='fs-2 text-center my-2'>Receta</h4>
+                        <Form.Group className='d-flex my-2'>
                             <Form.Label className='mx-2 mt-2'>Descripcion</Form.Label>
                             <Form.Control
+                                readOnly
                                 type="text"
-                                placeholder='Descripcion de evolucion clinica...'
+                                className='text-start '
+                                placeholder='Seleccione un medicamento'
                                 value={medicines !== null ? (medicines.descripcion) : null}
                                 onChange={(e)=>setReceta({...receta,descripcion:e.target.value})}
                             />
@@ -114,8 +119,9 @@ const NewEvolution = () => {
                         <Form.Group className='d-flex'>
                             <Form.Label className='mx-2 mt-2'>Dosis</Form.Label>
                             <Form.Control
+                                readOnly
                                 type="text"
-                                placeholder='Dosis de Medicameno...'
+                                placeholder='Seleccione un medicamento'
                                 value={medicines !== null ? (medicines.formato) : null}
                                 onChange={(e)=>setReceta({...receta,dosis:e.target.value})}
                             />
@@ -127,11 +133,12 @@ const NewEvolution = () => {
                 </Container>
                 <Container className='my-5 d-flex justify-content-around'>
                     <Form className='border d-flex flex-column justify-content-center p-5' onSubmit={handleSubmit(enviar)}>
-                        <h4 className='fs-4 text-center my-2'>Pedido de laboratorio</h4>
-                        <Form.Group className='d-flex'>
+                        <h4 className='fs-2 text-center my-2'>Pedido de laboratorio</h4>
+                        <Form.Group className='d-flex my-2'>
                             <Form.Label className='mx-2 mt-2'>Descripcion</Form.Label>
                             <Form.Control
                                 type="text"
+                                
                                 placeholder='Descripcion de pedido...'
                                 onChange={(e)=>setPedidoLab({...pedidoLab,descripcion:e.target.value})}
                             />
@@ -166,8 +173,9 @@ const NewEvolution = () => {
                                 placeholder="Descripcion de Medicamento..."
                                 onChange={(e) => { setParameterFilter(e.target.value); }}
                                 value={parameterFilter || ""}
+                                style={{width:"500px"}}
                             />
-                            <Button type='submit' variant='secondary' onClick={() => searchMed(parameterFilter)}>Buscar</Button>
+                            <Button type='submit' className='ms-1'variant='secondary' onClick={() => searchMed(parameterFilter)}>Buscar</Button>
                         </Container>
                     </Modal.Title>
                 </Modal.Header>

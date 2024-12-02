@@ -41,7 +41,6 @@ const MedicalRecord = () => {
     }, [])
     const fetchDataPatient = () => {
         searchDiagnostic(idPatient).then(resp => {
-            console.log(resp.data.diagnosticos.length)
             setDataDiagnostic(resp.data.diagnosticos)
             setLoad(true)
             localStorage.setItem("Diagnosticos",JSON.stringify(resp.data.diagnosticos))
@@ -71,6 +70,7 @@ const MedicalRecord = () => {
             load ? (
                 <Container className="my-5">
                     <h1 className='fs-1 text-center mb-4'>Paciente: {patientData[2].value+" "+patientData[3].value}</h1>
+                    <Button variant="secondary"onClick={()=>navigate(`/Main`)}><h4><i className="bi bi-arrow-left-circle"></i> Volver</h4></Button>
                     <Container className='d-flex flex-column flex-lg-row justify-content-around'>
                         <Card className="text-center my-2" style={{ width: '24rem' }}>
                             <h2 className='fs-2 mt-3'>Datos</h2>

@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 const Board = () => {
     const navigate=useNavigate("")
     const usuario=JSON.parse(localStorage.getItem("usuario"))
-    console.log(usuario);
     const parseText=(usuario)=>{
         return usuario.charAt(0).toUpperCase() + usuario.slice(1);
     }

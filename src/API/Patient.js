@@ -53,9 +53,6 @@ export const createDiagnostic = async (patient, diagnostic) => {
 }
 export const uploadEvolution = async (data,dni,diagnostic) => {
     try {
-        console.log(data)
-        console.log(dni)
-        console.log(diagnostic)
         const resp=axios.post(`${url}/pacientes/${dni}/historia-clinica/diagnosticos/${diagnostic}/evoluciones`,data)
         return resp
     } catch (e) {

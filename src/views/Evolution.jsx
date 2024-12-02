@@ -8,7 +8,7 @@ const Evolution = () => {
     const idDiagnostic = useParams();
     const [evolucionData, setEvolucionData] = useState([""])
     const [load, seLoad] = useState(false)
-    
+    const paciente= JSON.parse(localStorage.getItem("Paciente"))
 
     useEffect(() => {
         const uploadDiagnostic = () => {
@@ -22,6 +22,7 @@ const Evolution = () => {
     return (
         <Container>
             <h1 className='fs-1 text-center my-4'>Evolucion clinica de diagnostico:<b> {evolucionData.nombre}</b></h1>
+            <Button variant='secondary' onClick={()=>navigate(`/Hc/${paciente.dni}`)}><h4><i className="bi bi-arrow-left-circle"/> Volver</h4></Button>
             <Container className='d-flex my-4 '>
                 {
                     load ? (<>
