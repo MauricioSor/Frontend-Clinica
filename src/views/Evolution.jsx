@@ -14,8 +14,6 @@ const Evolution = () => {
         const uploadDiagnostic = () => {
             const diagnosticos = JSON.parse(localStorage.getItem("Diagnosticos")) || null
             const evolucion = diagnosticos.filter(e => e.id === idDiagnostic.id);
-            console.log([evolucion[0]])
-            console.log([evolucion[0]].length)
             setEvolucionData(evolucion[0])
             seLoad(true)
         }
@@ -71,7 +69,7 @@ const Evolution = () => {
                 }
             </Container>
             <Container className='d-flex flex-column'>
-                <Button onClick={() => navigate("/Evolution/new")} className='mx-5 p-3 my-5' >
+                <Button onClick={() => navigate(`/Evolution/new/${idDiagnostic.id}`)} className='mx-5 p-3 my-5' >
                     Nueva Evolucion
                 </Button>
             </Container>

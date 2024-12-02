@@ -29,7 +29,7 @@ function App() {
           <Route exact path="/Register" element={<Register/>} />
           <Route exact path="/Hc/:id" element={<MedicalRecord/>} />
           <Route exact path="/Evolution/:id" element={<Evolution/>} />
-          <Route exact path="/Evolution/New" element={<NewEvolution/>} />
+          <Route exact path="/Evolution/New/:id" element={<NewEvolution/>} />
           <Route exact path="/Evolution/LaboratoryOrder" element={<LaboratoryOder/>} />
           <Route exact path="/Evolution/DigitalPrescription" element={<DigitalPrescription/>} />
         </Routes>

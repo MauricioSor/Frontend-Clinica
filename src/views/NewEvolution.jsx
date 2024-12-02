@@ -1,34 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Form, Modal } from 'react-bootstrap';
+import { Button, Container, Form, Modal, Spinner } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { PedidoLab, Receta } from '../utils/alerts';
-import { loadMedicineAll } from '../API/Medicine';
+import { loadMedicineAll, searchByName } from '../API/Medicine';
 import Swal from 'sweetalert2';
+import { useParams } from 'react-router-dom';
+import { uploadEvolution } from '../API/Patient';
 
 const NewEvolution = () => {
     const { register, handleSubmit, formState: { errors }, reset, } = useForm();
     const [modalShow, setModalShow] = useState(false);
+    const [diagnostic,setDiagnostic]=useState()
     const [page, setPage] = useState(1)
     const [data, setData] = useState("")
-    const [medicines, setMedicines] = useState([])
+    const [parameterFilter, setParameterFilter] = useState()
+    const [load, setLoad] = useState(false)
+    const [medicines, setMedicines] = useState(null)
     const handleChangeModal = () => setModalShow(!modalShow)
+    const idDiagnostico=useParams()
+    
+    const[informe,setInforme]=useState()
+    const[receta,setReceta]=useState({descripcion: '',dosis: '',codigo:''});
+    const[pedidoLab,setPedidoLab]=useState({descripcion:'',fecha:''})
+    
     const enviar = () => {
-        PedidoLab();
-        Receta();
+        console.log(informe)
+        console.log(pedidoLab)
+        console.log(receta)
+        const usuario=JSON.parse(localStorage.getItem("usuario"))
+        const paciente =JSON.parse(localStorage.getItem("Paciente"))
+        const evolution={
+            informe:informe,
+            medicoDni:usuario.dni,
+            pedidoLaboratorio:{
+                descripcion:pedidoLab.descripcion,
+                fecha:pedidoLab.fecha
+            },
+            receta:{
+                codigoMedicamento:medicines.codigo,
+                dosis:medicines.formato
+            }
+        }
+        uploadEvolution(evolution,paciente.dni,idDiagnostico.id).then((resp)=>{
+            console.log(resp)
+            console.log(resp.status)
+        })
     }
-    const handleSelectMed=(Med)=>setMedicines(Med)
+    const handleSelectMed = (Med) => {
+        setMedicines(Med)
+        handleChangeModal()
+    }
     const handleMed = () => {
+        handleChangeModal()
         loadMedicineAll(page).then(resp => {
+            console.log(resp.status)
             if (resp.status == 200) {
                 setData(resp.data)
+                setLoad(true)
             } else {
                 setData(null)
             }
         })
-        handleChangeModal()
     }
     const searchMed = (med) => {
-        searchByName(med.medicamento).then(resp => {
+        searchByName(med).then(resp => {
             if (resp.status == 200) {
                 setData(resp.data)
             } else {
@@ -36,30 +71,24 @@ const NewEvolution = () => {
             }
         })
     }
-
+    const diagnostico = () => {
+        const diagnosticos = JSON.parse(localStorage.getItem("Diagnosticos")) || null
+        const evolucion = diagnosticos.filter(e => e.id === idDiagnostico.id);
+        return(evolucion[0].nombre)
+    }
     return (
         <>
             <Container>
-                <h1 className='fs-1 text-center'>Nueva Evolucion clinica del diagnostico: { }</h1>
+                <h1 className='fs-1 text-center'>Nueva Evolucion clinica del diagnostico: { diagnostico()}</h1>
                 <Container className='my-5 d-flex justify-content-around'>
                     <Form className='border d-flex flex-column justify-content-center p-5' onSubmit={handleSubmit(enviar)}>
                         <h4 className='fs-4 text-center my-2'>Datos de evolucion</h4>
                         <Form.Group className='d-flex'>
                             <Form.Label className='mx-2 mt-2'>Descripcion</Form.Label>
-                            <Form.Control
+                            <input
                                 type="text"
                                 placeholder='Informe de evolucion clinica...'
-                                {...register('evolucion', {
-                                    required: "La descripcion de evolucion es un dato obligatorio"
-                                    , minLength: {
-                                        value: 2,
-                                        message: "La cantidad minima de caracteres es de 2 y maximo de 20"
-                                    },
-                                    maxLength: {
-                                        value: 60
-                                        , message: "La cantidad minima de caracteres es de 2 y maximo de 60"
-                                    }
-                                })}
+                                onChange={(e)=>setInforme(e.target.value)}
                             />
                         </Form.Group>
                         <Form.Text className="text-danger">
@@ -70,7 +99,6 @@ const NewEvolution = () => {
                         Plantillas
                     </Button>
                 </Container>
-
                 <Container className='my-5 d-flex justify-content-around'>
                     <Form className='border d-flex flex-column justify-content-center p-5' onSubmit={handleSubmit(enviar)}>
                         <h4 className='fs-4 text-center my-2'>Receta</h4>
@@ -79,9 +107,8 @@ const NewEvolution = () => {
                             <Form.Control
                                 type="text"
                                 placeholder='Descripcion de evolucion clinica...'
-                                value={medicines.codigo||null}
-                                {...register('evolucion', {
-                                })}
+                                value={medicines !== null ? (medicines.descripcion) : null}
+                                onChange={(e)=>setReceta({...receta,descripcion:e.target.value})}
                             />
                         </Form.Group>
                         <Form.Group className='d-flex'>
@@ -89,9 +116,8 @@ const NewEvolution = () => {
                             <Form.Control
                                 type="text"
                                 placeholder='Dosis de Medicameno...'
-                                value={medicines.formato||null}
-                                {...register('evolucion', {
-                                })}
+                                value={medicines !== null ? (medicines.formato) : null}
+                                onChange={(e)=>setReceta({...receta,dosis:e.target.value})}
                             />
                         </Form.Group>
                     </Form>
@@ -106,64 +132,65 @@ const NewEvolution = () => {
                             <Form.Label className='mx-2 mt-2'>Descripcion</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder='Descripcion de evolucion clinica...'
-                                {...register('descripcion', {
-                                })}
+                                placeholder='Descripcion de pedido...'
+                                onChange={(e)=>setPedidoLab({...pedidoLab,descripcion:e.target.value})}
                             />
                         </Form.Group>
                         <Form.Group className='d-flex'>
                             <Form.Label className='mx-2 mt-2'>Fecha</Form.Label>
                             <Form.Control
                                 type="date"
-                                {...register('fecha', {
-                                })}
+                                onChange={(e)=>setPedidoLab({...pedidoLab,fecha:e.target.value})}
                             />
                         </Form.Group>
                     </Form>
                 </Container>
-                <Button className='mt-2 ' variant="primary" type='submit'>Guardar todo</Button>
+            </Container >
+            <Container className='d-flex justify-content-center align-items-center'>
+                <Button onClick={()=>enviar()} className='my-2 w-100' variant="primary" type='submit'>Guardar todo</Button>
             </Container>
 
             <Modal
+                show={modalShow}
+                onHide={handleChangeModal}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
+                centered>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Busqueda de medicamentos
-                        <Form onSubmit={handleSubmit(searchMed)}>
-                            <Form.Group className='d-flex'>
-                                <Form.Label className='mx-2 mt-2'>Descripcion</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder='Descripcion de Medicamento...'
-                                    {...register('medicamento', {
-                                        required: "Debe ingresar un medicamento para buscar"
-                                    })}
-                                />
-                            </Form.Group>
-                        </Form>
-                        <Form>
-                        </Form>
+                        <Container className='my-4 d-flex justify-content-center'>
+                            <Form.Label className='mx-2 mt-2'>Filtrar</Form.Label>
+                            <input
+                                type="text"
+                                placeholder="Descripcion de Medicamento..."
+                                onChange={(e) => { setParameterFilter(e.target.value); }}
+                                value={parameterFilter || ""}
+                            />
+                            <Button type='submit' variant='secondary' onClick={() => searchMed(parameterFilter)}>Buscar</Button>
+                        </Container>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container className='d-flex flex-column'>
                         {
-                            data.localeCompare((item,index)=>{
-                                return(
-                                    <Button key={index} className="my-2"onClick={()=>handleSelectMed(item)}>
-                                        {item.descripcion}
-                                        {item.formato}
+                            load ? (
+                                data.map((item, index) => {
+                                    return (
+                                        <Button key={index} className="my-2" onClick={() => handleSelectMed(item)}>
+                                            {item.descripcion}
+                                            {item.formato}
                                         </Button>
-                                )
-                            })
+                                    )
+                                })
+                            ) : (
+                                <Spinner />
+                            )
                         }
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => handleChangeModal()}>Close</Button>
+                    <Button variant='danger' onClick={() => handleChangeModal()}>Cerrar</Button>
                 </Modal.Footer>
             </Modal>
         </>

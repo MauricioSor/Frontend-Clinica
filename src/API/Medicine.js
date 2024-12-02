@@ -1,18 +1,26 @@
-import axios from "axios"
+import axios from "axios";
 
 export const loadMedicineAll = async (pageNumber) => {
     try {
-        const resp = await axios.get(`https://istp1service.azurewebsites.net/api/servicio-salud/medicamentos/todos?pagina=${pageNumber}&limite=100`)
-        return resp
-    } catch (e) {
-        return e;
+        const resp = await axios.get(`http://localhost:4000/api/medicamentos/todos?pagina=1&limite=100`)
+        return resp; 
+    } catch (error) {
+        console.error("Error al cargar los medicamentos:", error);
+        throw error; 
     }
-}
-export const searchByName=async(parameter)=>{
+};
+
+export const searchByName = async (parameter) => {
     try {
-        const resp = await axios.get(`https://istp1service.azurewebsites.net/api/servicio-salud/medicamentos?descripcion=${parameter}`)
-        return resp
-    } catch (e) {
-        return e;
+        const resp = await axios.get(`http://localhost:4000/api/servicio-salud/medicamentos?descripcion=${parameter}`, {
+            headers: {
+                'Accept': '*/*' // Asegurarte de que el encabezado Accept esté presente
+            }
+        });
+        return resp; 
+    } catch (error) {
+        console.error("Error al buscar medicamentos por nombre:", error);
+        throw error; 
     }
-}
+};
+
