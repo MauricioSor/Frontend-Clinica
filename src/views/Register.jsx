@@ -14,7 +14,7 @@ const Register = () => {
     const [parameterFilter, setParameterFilter] = useState()
     const [load, setLoad] = useState(false)
     const [serviceSelected, setServiceSelected] = useState("")
-    
+
     const registerPatient = (data) => {
         createPatient(data).then(resp => {
             if (resp.status == 201) {
@@ -27,30 +27,30 @@ const Register = () => {
     }
     useEffect(() => {
         loadAllServices();
-    },[])
+    }, [])
     const loadAllServices = () => {
         loadServices(null).then((resp) => {
-            if(resp.status==200){
+            if (resp.status == 200) {
                 setServices(resp.data)
                 setLoad(true)
-            }else{
-                Swal.fire("Error","Error al conectar con el servidor","error")
-            }   
+            } else {
+                Swal.fire("Error", "Error al conectar con el servidor", "error")
+            }
         })
     }
     const searchService = (parameterFilter) => {
         setLoad(false)
-        loadServices(parameterFilter).then(resp=>{
-            if(resp.status==200){
+        loadServices(parameterFilter).then(resp => {
+            if (resp.status == 200) {
                 setServices([resp.data])
-            }else{
-                Swal.fire("Error","No se encontraron coincidencias","error")
+            } else {
+                Swal.fire("Error", "No se encontraron coincidencias", "error")
                 setParameterFilter("")
             }
             setLoad(true)
         })
     }
-    const handleService=(search)=>{
+    const handleService = (search) => {
         handleChangeModal();
         setParameterFilter("");
         setServiceSelected(search.codigo)
@@ -69,6 +69,10 @@ const Register = () => {
                                 placeholder="Ingrese nombre..."
                                 {...register('nombre', {
                                     required: '*El nombre es un dato obligatorio *',
+                                    pattern: {
+                                        value: /^[a-zA-Z\s]+$/,
+                                        message: '*El nombre solo puede contener letras*',
+                                    },
                                 })}
                             />
                             <Form.Text className="ms-3 fs-5 text-danger">
@@ -84,6 +88,10 @@ const Register = () => {
                             placeholder="Ingrese apellido..."
                             {...register('apellido', {
                                 required: '* El apellido es un dato obligatorio* ',
+                                pattern: {
+                                    value: /^[a-zA-Z\s]+$/,
+                                    message: '*El apellido solo puede contener letras*',
+                                },
                             })}
                         />
                         <Form.Text className="ms-3 fs-5 text-danger">
@@ -115,6 +123,10 @@ const Register = () => {
                                 placeholder="Ingrese cuil..."
                                 {...register('cuil', {
                                     required: '* El cuil es un dato obligatorio *',
+                                    pattern: {
+                                        value: /^\d{2}-\d{8}-\d{1}$/,
+                                        message: 'Formato de CUIL inválido. Debe ser XX-XXXXXXXX-X.'
+                                    }
                                 })}
                             />
                             <Form.Text className="ms-3 fs-5 text-danger">
@@ -131,6 +143,10 @@ const Register = () => {
                                 placeholder="Ingrese pasaporte..."
                                 {...register('pasaporte', {
                                     required: '* El pasaporte es un dato obligatorio *',
+                                    /* pattern: {
+                                        value: /^\d{2}-\d{8}-\d{1}$/,
+                                        message: 'Formato de pasaporte inválido. Debe ser XX-XXXXXXXX-X.'
+                                    } */
                                 })}
                             />
                             <Form.Text className="ms-3 fs-5 text-danger">
@@ -147,6 +163,10 @@ const Register = () => {
                                 placeholder="Ingrese pais..."
                                 {...register('pais', {
                                     required: '* El pais es un dato obligatorio *',
+                                    pattern: {
+                                        value: /^[a-zA-Z\s]+$/,
+                                        message: '*El pais solo puede contener letras*',
+                                    },
                                 })}
                             />
                             <Form.Text className="ms-3 fs-5 text-danger">
@@ -163,6 +183,10 @@ const Register = () => {
                                 placeholder="Ingrese provincia..."
                                 {...register('provincia', {
                                     required: '* El provincia es un dato obligatorio *',
+                                    pattern: {
+                                        value: /^[a-zA-Z\s]+$/,
+                                        message: '*Provincia solo puede contener letras*',
+                                    },
                                 })}
                             />
                             <Form.Text className="ms-3 fs-5 text-danger">
@@ -179,6 +203,10 @@ const Register = () => {
                                 placeholder="Ingrese localidad..."
                                 {...register('localidad', {
                                     required: '* Localidad es un dato obligatorio *',
+                                    pattern: {
+                                        value: /^[a-zA-Z\s]+$/,
+                                        message: '*Localidad solo puede contener letras*',
+                                    },
                                 })}
                             />
                             <Form.Text className="ms-3 fs-5 text-danger">
@@ -195,6 +223,10 @@ const Register = () => {
                                 placeholder="Ingrese direccion..."
                                 {...register('direccion', {
                                     required: '* La direccion es un dato obligatorio *',
+                                    pattern: {
+                                        value: /^[a-zA-Z0-9\s]+$/,
+                                        message: '*Dirección solo puede contener letras, números y espacios*',
+                                    },
                                 })}
                             />
                             <Form.Text className="ms-3 fs-5 text-danger">
@@ -211,6 +243,10 @@ const Register = () => {
                                 placeholder="Ingrese correo..."
                                 {...register('email', {
                                     required: '* El correo es un dato obligatorio *',
+                                    pattern: {
+                                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                        message: '*El correo debe tener un formato válido*',
+                                    },
                                 })}
                             />
                             <Form.Text className="ms-3 fs-5 text-danger">
@@ -249,7 +285,7 @@ const Register = () => {
                             <Form.Text className="ms-3 fs-5 text-danger">
                                 {errors.nroAfiniliado?.message}
                             </Form.Text>
-                            <Button onClick={()=>handleChangeModal()} variant='warning'>Buscar</Button>
+                            <Button onClick={() => handleChangeModal()} variant='warning'>Buscar</Button>
                         </Container>
                     </Form.Group>
                     <Form.Group className="d-flex my-3 align-items-center">
@@ -258,6 +294,7 @@ const Register = () => {
                             <Form.Control
                                 style={{ width: "400px" }}
                                 type="date"
+                                max={new Date().toISOString().split("T")[0]} 
                                 placeholder="Ingrese fecha de nacimiento..."
                                 {...register('fechNac', {
                                     required: '* Fecha de nacimiento es un dato obligatorio *',
@@ -274,7 +311,7 @@ const Register = () => {
                     </Container>
                 </Form>
             </Container>
-            
+
             <Modal
                 show={modalShow}
                 onHide={handleChangeModal}
@@ -304,8 +341,8 @@ const Register = () => {
                                 services.map((item, index) => {
                                     return (
                                         <Button key={index} className="my-2" onClick={() => handleService(item)}>
-                                            {(item.sigla).length<1?"VACIO":item.sigla}
-                                            <span><br/>Codigo: {item.codigo}</span>
+                                            {(item.sigla).length < 1 ? "VACIO" : item.sigla}
+                                            <span><br />Codigo: {item.codigo}</span>
                                         </Button>
                                     )
                                 })

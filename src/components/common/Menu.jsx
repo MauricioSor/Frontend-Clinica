@@ -95,7 +95,8 @@ const Menu = ({ userLog, LoginUser }) => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Ingrese Correo electronico..."
-                                    defaultValue="pedroR"
+                                    maxLength={24}
+                                    min={8}
                                     {...register('usuario', {
                                         required: 'El usuario es un dato obligatorio',
                                     })}
@@ -109,7 +110,8 @@ const Menu = ({ userLog, LoginUser }) => {
                                 <Form.Control
                                     type="password"
                                     placeholder="Ingrese Contraseña"
-                                    defaultValue="password123"
+                                    maxLength={24}
+                                    min={8}
                                     {...register('contraseña', {
                                         required: 'La contraseña es obligatoria',
                                     })}

@@ -31,7 +31,7 @@ function App() {
           <Route exact path="/Evolution/:id" element={<Evolution/>} />
           <Route exact path="/Evolution/New/:id" element={<NewEvolution/>} />
           <Route exact path="/Evolution/LaboratoryOrder" element={<LaboratoryOder/>} />
-          <Route exact path="/Evolution/DigitalPrescription" element={<DigitalPrescription/>} />
+          <Route exact path="/Evolution/DigitalPrescription/:idPatient/:idDiagnostic/:idEvolutino" element={<DigitalPrescription/>} />
         </Routes>
         <Footer />
       </HashRouter>

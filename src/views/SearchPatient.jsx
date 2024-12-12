@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, InputGroup, Table } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { FaSearch } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
+import { FaSearch } from 'react-icons/fa'; 
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { searchPatientParam } from '../API/Patient';
 import Swal from 'sweetalert2';
@@ -42,7 +42,7 @@ const SearchPatient = () => {
                     <Container className='d-flex flex-column'>
                         <InputGroup>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 placeholder="Pj. 12345678"
                                 {...register('paramt', {
                                     required: "Debe ingresar dni cuil o pasaporte del paciente"

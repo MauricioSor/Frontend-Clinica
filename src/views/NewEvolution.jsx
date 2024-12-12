@@ -30,15 +30,19 @@ const NewEvolution = () => {
         const evolution = {
             informe: informe,
             medicoDni: usuario.dni,
-            pedidoLaboratorio: {
-                descripcion: pedidoLab.descripcion,
-                fecha: pedidoLab.fecha
-            },
-            receta: {
-                codigoMedicamento: medicines.codigo,
-                dosis: medicines.formato
-            }
-        }
+            ...(pedidoLab !== null && {
+                pedidoLaboratorio: {
+                    descripcion: pedidoLab.descripcion,
+                    fecha: pedidoLab.fecha,
+                },
+            }),
+            ...(medicines !== null && {
+                receta: {
+                    codigoMedicamento: medicines.codigo,
+                    dosis: medicines.formato,
+                },
+            }),
+        };
         uploadEvolution(evolution, paciente.dni, idDiagnostico.id).then((resp) => {
             if (resp.status == 201) {
                 Swal.fire("Evolucion creada", "", "success")
@@ -60,7 +64,7 @@ const NewEvolution = () => {
                 setLoad(true)
             } else {
                 setData(null)
-                Swal.fire("Error","Ocurrió un error al contectar con el servidor. Intente nuevamente","error")
+                Swal.fire("Error", "Ocurrió un error al contectar con el servidor. Intente nuevamente", "error")
             }
         })
     }
@@ -69,8 +73,8 @@ const NewEvolution = () => {
         searchByName(med).then(resp => {
             if (resp.status == 200) {
                 setData(resp.data)
-            } 
-            if(resp.status==500) {
+            }
+            if (resp.status == 500) {
                 Swal.fire("Error", "No se encontraron coincidencias", "error")
                 handleMed()
                 setParameterFilter("")
@@ -152,6 +156,7 @@ const NewEvolution = () => {
                             <Form.Label className='mx-2 mt-2'>Fecha</Form.Label>
                             <Form.Control
                                 type="date"
+                                max={new Date().toISOString().split("T")[0]}
                                 onChange={(e) => setPedidoLab({ ...pedidoLab, fecha: e.target.value })}
                             />
                         </Form.Group>
@@ -199,7 +204,7 @@ const NewEvolution = () => {
                             ) : (
                                 <>
                                     <Container className='d-flex justify-content-center'>
-                                    Cargando... <Spinner />
+                                        Cargando... <Spinner />
                                     </Container>
                                 </>
                             )
