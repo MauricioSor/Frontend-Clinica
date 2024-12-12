@@ -143,10 +143,6 @@ const Register = () => {
                                 placeholder="Ingrese pasaporte..."
                                 {...register('pasaporte', {
                                     required: '* El pasaporte es un dato obligatorio *',
-                                    /* pattern: {
-                                        value: /^\d{2}-\d{8}-\d{1}$/,
-                                        message: 'Formato de pasaporte inválido. Debe ser XX-XXXXXXXX-X.'
-                                    } */
                                 })}
                             />
                             <Form.Text className="ms-3 fs-5 text-danger">

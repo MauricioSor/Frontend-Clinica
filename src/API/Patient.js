@@ -2,6 +2,7 @@ import axios from "axios";
 const url = import.meta.env.VITE_CLINICA
 
 const token=JSON.parse(localStorage.getItem("token"))
+
 const config = {
     headers: {
         'Authorization': 'Bearer ' +token

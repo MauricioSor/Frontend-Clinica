@@ -11,7 +11,7 @@ const Footer = () => {
                         <QRCode
                             size={160}
                             style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                            value={window.location.href}
+                            value={window.location.origin}
                             viewBox={`0 0 256 256`}
                         />
                     </Col>

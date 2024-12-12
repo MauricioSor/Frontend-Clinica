@@ -75,7 +75,6 @@ const Evolution = () => {
                                                         <div key={index}>
                                                             <b>Descripcion: </b>{pedido.descripcion} <br />
                                                             <b>Fecha: </b>{dateParse(pedido.fecha)} <br />
-                                                            <b>Hora: </b>{timeParse(pedido.fecha)} <br />
                                                         </div>
                                                     ))}</li>
                                                 ) : null}
