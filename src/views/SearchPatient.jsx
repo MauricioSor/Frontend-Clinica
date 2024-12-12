@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, InputGroup, Table } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { FaSearch } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
+import { FaSearch } from 'react-icons/fa'; 
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { searchPatientParam } from '../API/Patient';
 import Swal from 'sweetalert2';
@@ -12,6 +12,7 @@ const SearchPatient = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [load, setLoad] = useState(false)
     const [data, setData] = useState("")
+
     const busquedaDni = (param) => {
         searchPatientParam(param).then((response) => {
             if (response.status === 200) {
@@ -24,7 +25,6 @@ const SearchPatient = () => {
             }
         })
         .catch((error) => {
-            // Aquí también puedes manejar errores
             Swal.fire("Error", "Error al conectar con el servidor", "error");
             setLoad(true);
             setData(null);
@@ -42,7 +42,7 @@ const SearchPatient = () => {
                     <Container className='d-flex flex-column'>
                         <InputGroup>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 placeholder="Pj. 12345678"
                                 {...register('paramt', {
                                     required: "Debe ingresar dni cuil o pasaporte del paciente"
@@ -84,7 +84,8 @@ const SearchPatient = () => {
                                     <tr>
                                         {
                                             [data].map((item, index) =>
-                                            (<>
+                                            {
+                                                return(<>
                                                 <td>{item.dni}</td>
                                                 <td>{item.cuil}</td>
                                                 <td>{item.pasaporte}</td>
@@ -92,14 +93,14 @@ const SearchPatient = () => {
                                                 <td>{item.apellido}</td>
                                                 <td>{item.provincia}</td>
                                                 <td>{item.pais}</td>
-                                                <td>{item.obraSocial}</td>
+                                                <td>{item.siglaObraSocial}</td>
                                                 <td>{dateParse(item.fechaNacimiento)}</td>
                                                 <td>{dateParse(item.historiaClinica.fechaCreacion)}</td>
                                                 <td className={item.estadoPersona=="ACTIVO" ? ('text-success') : ('text-danger')}><strong>{item.estadoPersona=="ACTIVO" ? (`Activo`) : (`Inactivo`)}</strong></td>
                                                 <td>
                                                     <NavLink end to={`/HC/${item.dni}`} variant="success" size="sm" className="btn btn-success me-2" onClick={()=>uploadPatient(data)}>Ver Historia Clinica</NavLink>
                                                 </td>
-                                            </>)
+                                            </>)}
                                             )
                                         }
                                     </tr>

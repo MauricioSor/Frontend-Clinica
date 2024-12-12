@@ -15,9 +15,8 @@ const Menu = ({ userLog, LoginUser }) => {
     const handleChange = () => setShow(!show);
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const navigate = useNavigate("")
+    
     const admin = {
-        email: "admin@clinica.com",
-        password: "Admin123!",
         dni: "12345678",
         cuil: "20-12345678-9",
         apellido: "Rodriguez",
@@ -26,29 +25,30 @@ const Menu = ({ userLog, LoginUser }) => {
         direccion: "Sarmiento 560",
         localidad: "Yerba Buena",
         provincia: "Tucumán",
-        pais: "Argentina",        
+        pais: "Argentina",
+        email: "juan.perez@example.com",
         telefono: "123456789",
         matricula: "12345",
         especialidad: "Cardiología",
         usuario: "pedroR",
+        password: "password123",
         tipoUsuario: "medico"
     }
-    const comprobarAdmin = (userLog) => {
-        if (userLog.email === admin.email && userLog.contraseña === admin.password) {
-            return true
-        } else {
-            return false
-        }
-    }
+
     const login = (user) => {
-        var adminSession = comprobarAdmin(user)
-        adminSession == true ? navigate("/AdminBoard") : null
-        if (adminSession) {
-            Swal.fire("Bienvenido  " + admin.nombre, "", "success")
-            localStorage.setItem("usuario",JSON.stringify(admin))
-            navigate("/Board")
-        }
-        handleChange();
+        newLogin(user).then((resp)=>{
+            if(resp.status==200){
+                Swal.fire("Bienvenido  " + admin.nombre, "", "success")
+                localStorage.setItem("usuario",JSON.stringify(admin))
+                localStorage.setItem("token",JSON.stringify(resp.data.token))
+                navigate("/Board")
+                LoginUser(JSON.stringify(admin))
+                handleChange();
+            }else{
+                Swal.fire("Error al iniciar sesión", "", "error")
+            }
+        })
+        
     }
     const LogOut = () => {
         localStorage.clear()
@@ -95,17 +95,14 @@ const Menu = ({ userLog, LoginUser }) => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Ingrese Correo electronico..."
-                                    defaultValue="pedroR"
-                                    {...register('email', {
-                                        required: 'El email es un dato obligatorio',
-                                        /* pattern: {
-                                            value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=? ^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a -z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
-                                            message: 'El email debe tener el siguiente formato mail@dominio.com'
-                                        } */
+                                    maxLength={24}
+                                    min={8}
+                                    {...register('usuario', {
+                                        required: 'El usuario es un dato obligatorio',
                                     })}
                                 />
                                 <Form.Text className="text-danger">
-                                    {errors.email?.message}
+                                    {errors.usuario?.message}
                                 </Form.Text>
                             </Form.Group>
                             <Form.Group>
@@ -113,13 +110,10 @@ const Menu = ({ userLog, LoginUser }) => {
                                 <Form.Control
                                     type="password"
                                     placeholder="Ingrese Contraseña"
-                                    defaultValue="password123"
+                                    maxLength={24}
+                                    min={8}
                                     {...register('contraseña', {
                                         required: 'La contraseña es obligatoria',
-                                        pattern: {
-                                            //value: /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/,
-                                            //message: 'La contraseña debe tener entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula. No puede tener otros símbolos.'
-                                        }
                                     })}
                                 />
                                 <Form.Text className="text-danger">

@@ -14,7 +14,7 @@ export const searchByName = async (parameter) => {
     try {
         const resp = await axios.get(`http://localhost:4000/api/servicio-salud/medicamentos?descripcion=${parameter}`, {
             headers: {
-                'Accept': '*/*' // Asegurarte de que el encabezado Accept esté presente
+                'Accept': '*/*'
             }
         });
         return resp; 
