@@ -19,7 +19,7 @@ const MedicalRecord = () => {
         { label: 'Pasaporte', value: dataPatientFetch.pasaporte },
         { label: 'Nombre', value: dataPatientFetch.nombre },
         { label: 'Apellido', value: dataPatientFetch.apellido },
-        { label: 'Obra Social', value: dataPatientFetch.obraSocial },
+        { label: 'Obra Social', value: dataPatientFetch.siglaObraSocial },
         { label: 'Fecha de Nacimiento', value: dataPatientFetch.fechaNacimiento },
     ];
     const sintomasData = [

@@ -12,6 +12,7 @@ const SearchPatient = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [load, setLoad] = useState(false)
     const [data, setData] = useState("")
+
     const busquedaDni = (param) => {
         searchPatientParam(param).then((response) => {
             if (response.status === 200) {
@@ -24,7 +25,6 @@ const SearchPatient = () => {
             }
         })
         .catch((error) => {
-            // Aquí también puedes manejar errores
             Swal.fire("Error", "Error al conectar con el servidor", "error");
             setLoad(true);
             setData(null);
@@ -84,7 +84,8 @@ const SearchPatient = () => {
                                     <tr>
                                         {
                                             [data].map((item, index) =>
-                                            (<>
+                                            {
+                                                return(<>
                                                 <td>{item.dni}</td>
                                                 <td>{item.cuil}</td>
                                                 <td>{item.pasaporte}</td>
@@ -92,14 +93,14 @@ const SearchPatient = () => {
                                                 <td>{item.apellido}</td>
                                                 <td>{item.provincia}</td>
                                                 <td>{item.pais}</td>
-                                                <td>{item.obraSocial}</td>
+                                                <td>{item.siglaObraSocial}</td>
                                                 <td>{dateParse(item.fechaNacimiento)}</td>
                                                 <td>{dateParse(item.historiaClinica.fechaCreacion)}</td>
                                                 <td className={item.estadoPersona=="ACTIVO" ? ('text-success') : ('text-danger')}><strong>{item.estadoPersona=="ACTIVO" ? (`Activo`) : (`Inactivo`)}</strong></td>
                                                 <td>
                                                     <NavLink end to={`/HC/${item.dni}`} variant="success" size="sm" className="btn btn-success me-2" onClick={()=>uploadPatient(data)}>Ver Historia Clinica</NavLink>
                                                 </td>
-                                            </>)
+                                            </>)}
                                             )
                                         }
                                     </tr>

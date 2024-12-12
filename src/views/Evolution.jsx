@@ -21,7 +21,7 @@ const Evolution = () => {
     }, [])
     return (
         <Container>
-            <h1 className='fs-1 text-center my-4'>Evolucion clinica de diagnostico:<b> {evolucionData.nombre}</b></h1>
+            <h1 className='fs-1 text-center my-4'>Evolucion clinica del diagnostico:<b> {evolucionData.nombre}</b></h1>
             <Button variant='secondary' onClick={()=>navigate(`/Hc/${paciente.dni}`)}><h4><i className="bi bi-arrow-left-circle"/> Volver</h4></Button>
             <Container className='d-flex my-4 '>
                 {
@@ -43,10 +43,9 @@ const Evolution = () => {
                                                     return(
                                                     <div className='ms-5' key={index}>
                                                         <b>Codigo: </b>{itemReceta.codigo} <br />
-                                                        <b>Dosis: </b>{itemReceta.dosis} <br />
                                                         <b>Medicamentos: </b>{itemReceta.medicamento.descripcion} <br />
                                                         <b>Formato: </b>{itemReceta.medicamento.formato} <br />
-                                                        <b>Estado:</b><span className={`${itemReceta.estadoReceta ? ('text-success') : ('text-danger')}`}> {itemReceta.estadoReceta ? "Usado" : "Sin usar"}</span>
+                                                        <b>Estado:</b><span className={`${itemReceta.estadoReceta=="ACTIVO" ? ('text-success') : ('text-danger')}`}> {itemReceta.estadoReceta ? itemReceta.estadoReceta : itemReceta.estadoReceta}</span>
                                                     </div>
                                                 )}
                                                 )}</li>
